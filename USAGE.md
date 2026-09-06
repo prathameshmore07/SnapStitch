@@ -7,13 +7,43 @@ A step-by-step operational guide for aggregating, arranging, and compiling bulk 
 ---
 
 ## Table of Contents
-1. [Quick Overview](#quick-overview)
-2. [Workflow 1: Web Interface (Recommended)](#workflow-1-web-interface-recommended)
-3. [Workflow 2: Command-Line Interface (CLI)](#workflow-2-command-line-interface-cli)
-4. [Clearing Workspace for New Batches](#clearing-workspace-for-new-batches)
-5. [Advanced Features & Shortcuts](#advanced-features--shortcuts)
-6. [Folder Structure & File Storage](#folder-structure--file-storage)
-7. [Troubleshooting & FAQs](#troubleshooting--faqs)
+1. [Repository Setup & Installation](#repository-setup--installation)
+2. [Quick Overview](#quick-overview)
+3. [Workflow 1: Web Interface (Recommended)](#workflow-1-web-interface-recommended)
+4. [Workflow 2: Command-Line Interface (CLI)](#workflow-2-command-line-interface-cli)
+5. [Clearing Workspace for New Batches](#clearing-workspace-for-new-batches)
+6. [Advanced Features & Shortcuts](#advanced-features--shortcuts)
+7. [Folder Structure & File Storage](#folder-structure--file-storage)
+8. [Troubleshooting & FAQs](#troubleshooting--faqs)
+
+---
+
+## Repository Setup & Installation
+
+### 1. Clone / Pull the Repository
+To get the latest version of SnapStitch on any computer:
+```bash
+git clone https://github.com/prathameshmore07/SnapStitch.git
+cd SnapStitch
+```
+
+If you already cloned it and want to pull the latest changes:
+```bash
+git pull origin main
+```
+
+### 2. Environment & Dependencies Setup
+```bash
+# macOS / Linux
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+```
 
 ---
 
@@ -154,4 +184,5 @@ Ctrl + C
 ## Author
 
 **Prathamesh More**
-- GitHub: [github.com/prathameshmore](https://github.com/prathameshmore)
+- GitHub: [github.com/prathameshmore07](https://github.com/prathameshmore07)
+- Repository: [github.com/prathameshmore07/SnapStitch](https://github.com/prathameshmore07/SnapStitch)

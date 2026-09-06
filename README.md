@@ -95,8 +95,8 @@ flowchart LR
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/prathameshmore07/SnapStitch.git
+   cd SnapStitch
    ```
 
 2. Create and activate a virtual environment:
@@ -160,4 +160,5 @@ flowchart LR
 ## Author
 
 **Prathamesh More**
-- GitHub: [github.com/prathameshmore](https://github.com/prathameshmore)
+- GitHub: [github.com/prathameshmore07](https://github.com/prathameshmore07)
+- Repository: [github.com/prathameshmore07/SnapStitch](https://github.com/prathameshmore07/SnapStitch)
