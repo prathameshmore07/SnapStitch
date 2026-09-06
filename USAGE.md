@@ -7,7 +7,7 @@ A step-by-step operational guide for aggregating, arranging, and compiling bulk 
 ---
 
 ## Table of Contents
-1. [Repository Setup & Installation](#repository-setup--installation)
+1. [How to Pull & Setup (New Users)](#how-to-pull--setup-new-users)
 2. [Quick Overview](#quick-overview)
 3. [Workflow 1: Web Interface (Recommended)](#workflow-1-web-interface-recommended)
 4. [Workflow 2: Command-Line Interface (CLI)](#workflow-2-command-line-interface-cli)
@@ -18,28 +18,33 @@ A step-by-step operational guide for aggregating, arranging, and compiling bulk 
 
 ---
 
-## Repository Setup & Installation
+## How to Pull & Setup (New Users)
 
-### 1. Clone / Pull the Repository
-To get the latest version of SnapStitch on any computer:
+Follow these steps to get SnapStitch running on your machine:
+
+### Step 1: Clone / Pull the Code
+Open your terminal and run:
 ```bash
 git clone https://github.com/prathameshmore07/SnapStitch.git
 cd SnapStitch
 ```
 
-If you already cloned it and want to pull the latest changes:
+*If you already cloned the repository and want the latest updates:*
 ```bash
 git pull origin main
 ```
 
-### 2. Environment & Dependencies Setup
+### Step 2: Create a Virtual Environment & Install Dependencies
+
+**On macOS / Linux:**
 ```bash
-# macOS / Linux
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+```
 
-# Windows
+**On Windows:**
+```bash
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
@@ -77,7 +82,7 @@ In your terminal, run:
 ```bash
 python3 main.py
 ```
-This automatically starts the local SnapStitch service and opens `http://localhost:5050` in your default web browser.
+This starts the local SnapStitch service and automatically opens `http://localhost:5050` in your web browser.
 
 ### Step 2: Ingest Screenshots
 You can add screenshots using any of the following methods:
@@ -184,5 +189,3 @@ Ctrl + C
 ## Author
 
 **Prathamesh More**
-- GitHub: [github.com/prathameshmore07](https://github.com/prathameshmore07)
-- Repository: [github.com/prathameshmore07/SnapStitch](https://github.com/prathameshmore07/SnapStitch)

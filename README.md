@@ -85,21 +85,15 @@ flowchart LR
 
 ---
 
-## Installation
+## Installation & Setup
 
-### Prerequisites
-- Python 3.8 or higher
-- `pip` package manager
-
-### Setup Instructions
-
-1. Clone the repository:
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/prathameshmore07/SnapStitch.git
    cd SnapStitch
    ```
 
-2. Create and activate a virtual environment:
+2. **Create and activate a virtual environment:**
    ```bash
    # macOS / Linux
    python3 -m venv venv
@@ -110,7 +104,7 @@ flowchart LR
    venv\Scripts\activate
    ```
 
-3. Install required dependencies:
+3. **Install required dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
@@ -121,7 +115,7 @@ flowchart LR
 
 ### Method 1: Web Application Interface (Recommended)
 
-1. Launch SnapStitch:
+1. **Launch SnapStitch:**
    ```bash
    python3 main.py
    ```
@@ -160,5 +154,3 @@ flowchart LR
 ## Author
 
 **Prathamesh More**
-- GitHub: [github.com/prathameshmore07](https://github.com/prathameshmore07)
-- Repository: [github.com/prathameshmore07/SnapStitch](https://github.com/prathameshmore07/SnapStitch)
