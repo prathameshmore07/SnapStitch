@@ -71,16 +71,25 @@ class ScreenshotServerHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-Length', str(len(content)))
                 self.end_headers()
                 self.wfile.write(content)
-        elif path in ('/favicon.png', '/favicon.ico'):
-            fav_name = "favicon.png" if path == '/favicon.png' else "favicon.ico"
+        elif path in ('/favicon.png', '/favicon.ico', '/favicon-32x32.png'):
+            if path == '/favicon.ico':
+                fav_name = "favicon.ico"
+                content_type = 'image/x-icon'
+            elif path == '/favicon-32x32.png':
+                fav_name = "favicon-32x32.png"
+                content_type = 'image/png'
+            else:
+                fav_name = "favicon.png"
+                content_type = 'image/png'
+
             fav_path = os.path.join(BASE_DIR, fav_name)
             if os.path.exists(fav_path):
                 with open(fav_path, 'rb') as f:
                     content = f.read()
-                content_type = 'image/png' if fav_name.endswith('.png') else 'image/x-icon'
                 self.send_response(200)
                 self.send_header('Content-Type', content_type)
                 self.send_header('Content-Length', str(len(content)))
+                self.send_header('Cache-Control', 'public, max-age=86400')
                 self.end_headers()
                 self.wfile.write(content)
             else:

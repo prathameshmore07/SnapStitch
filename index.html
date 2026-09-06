@@ -7,8 +7,11 @@
   <meta name="description" content="SnapStitch: Fast, minimalist tool to arrange screenshots and export clean PDF and DOCX documents." />
   
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png" />
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" href="favicon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -78,8 +81,27 @@
       gap: 12px;
     }
 
-    .brand-logo {
+    .brand-favicon-badge {
+      width: 32px;
       height: 32px;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .brand-favicon-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-logo {
+      height: 28px;
       width: auto;
       object-fit: contain;
       display: block;
@@ -119,14 +141,14 @@
       color: var(--text);
     }
 
-    /* Main Dashboard Grid (2 Columns: Workspace & Studio Controls) */
+    /* Main Dashboard Grid (2 Columns: Perfectly Balanced Heights) */
     .dashboard-grid {
       width: 100%;
       max-width: 1040px;
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
+      grid-template-columns: 1.35fr 1fr;
       gap: 20px;
-      align-items: start;
+      align-items: stretch;
       margin-top: 16px;
     }
 
@@ -135,14 +157,15 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
+      height: 100%;
     }
 
-    /* Drop Zone */
+    /* Drop Zone (Even, balanced height matching the right card) */
     .dropzone {
       background: var(--surface);
       border: 1px dashed var(--border);
       border-radius: var(--radius-lg);
-      padding: 36px 20px;
+      padding: 40px 24px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -150,10 +173,14 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 14px;
+      flex: 1;
+      min-height: 330px;
     }
 
     .dropzone.compact {
+      flex: 0 0 auto;
+      min-height: unset;
       padding: 12px 16px;
       flex-direction: row;
       justify-content: space-between;
@@ -161,6 +188,7 @@
       background: var(--surface-card);
       border-color: var(--border);
       border-radius: var(--radius-md);
+      gap: 10px;
     }
 
     .dropzone.compact .dropzone-icon {
@@ -867,9 +895,23 @@
 </head>
 <body>
 
+  <!-- Dynamic Favicon Loader -->
+  <script>
+    (function() {
+      var icon = document.createElement('link');
+      icon.rel = 'icon';
+      icon.type = 'image/png';
+      icon.href = 'favicon.png?v=' + Date.now();
+      document.head.appendChild(icon);
+    })();
+  </script>
+
   <!-- Top Header Navigation -->
   <header class="top-header">
     <div class="brand-left">
+      <div class="brand-favicon-badge">
+        <img src="favicon.png" alt="SnapStitch Icon" />
+      </div>
       <img src="logo.png" alt="SnapStitch" class="brand-logo" />
       <span class="brand-tagline">Screenshot to PDF & DOCX Compiler</span>
     </div>
