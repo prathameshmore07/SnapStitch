@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Screenshot Arranger — PDF & DOC</title>
-  <meta name="description" content="Minimalist screenshot arranger. Auto-saves to ss/ and output/ with instant PDF & DOC downloads." />
+  <title>SnapStitch — Minimalist Screenshot Arranger</title>
+  <meta name="description" content="SnapStitch: Fast, minimalist tool to arrange screenshots and export clean PDF and DOCX documents." />
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -58,20 +58,32 @@
       gap: 24px;
     }
 
-    /* Minimal Header */
+    /* Minimal Header with SnapStitch Branding */
     header {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      padding-bottom: 8px;
+      padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
     }
 
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     h1 {
-      font-size: 1.35rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
       color: var(--text);
+    }
+
+    .version-tag {
+      font-size: 0.72rem;
+      color: var(--text-subtle);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
 
     p.subtitle {
@@ -434,6 +446,14 @@
       border-color: var(--border-focus);
     }
 
+    /* Minimal Footer */
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-subtle);
+      padding-top: 16px;
+    }
+
     /* Toast */
     .toast {
       position: fixed;
@@ -466,10 +486,13 @@
 <body>
 
   <div class="container">
-    <!-- Minimal Header -->
+    <!-- Header with SnapStitch Branding -->
     <header>
-      <h1>Screenshot Arranger</h1>
-      <p class="subtitle">Drop screenshots • Saves to <code>ss/</code> and <code>output/</code></p>
+      <div class="brand-row">
+        <h1>SnapStitch</h1>
+        <span class="version-tag">v1.0</span>
+      </div>
+      <p class="subtitle">Arrange screenshots into clean PDF and DOCX documents • Auto-saves to <code>ss/</code> and <code>output/</code></p>
     </header>
 
     <!-- Drop Zone -->
@@ -479,7 +502,7 @@
         <polyline points="17 8 12 3 7 8"></polyline>
         <line x1="12" y1="3" x2="12" y2="15"></line>
       </svg>
-      <div class="dropzone-text">Drop any number of screenshots or click to browse</div>
+      <div class="dropzone-text">Drop screenshots or click to browse</div>
       <div class="dropzone-subtext">PNG, JPG, WEBP, BMP • Paste anytime with ⌘V / Ctrl+V</div>
       <input type="file" id="fileInput" multiple accept="image/*" />
     </div>
@@ -520,7 +543,7 @@
       </button>
     </div>
 
-    <!-- Download Result Card (Appears on screen after compilation) -->
+    <!-- Download Result Card -->
     <div class="result-card" id="resultCard">
       <div class="result-header">
         <div class="result-status">
@@ -541,6 +564,10 @@
         </a>
       </div>
     </div>
+
+    <footer>
+      SnapStitch • Built by Prathamesh
+    </footer>
   </div>
 
   <!-- Toast -->
@@ -725,7 +752,7 @@
       setTimeout(() => toast.classList.remove('visible'), 2400);
     }
 
-    // Compilation & Download Handler
+    // Compilation Handler
     generateBtn.addEventListener('click', async () => {
       if (!images.length) return;
 
@@ -776,7 +803,7 @@
           generateBtnText.textContent = 'Compile & Save Documents';
         }
       } else {
-        // Mode 2: Client-side Browser Fallback
+        // Mode 2: Client-side Fallback
         try {
           const { jsPDF } = window.jspdf;
           const isLetter = pageFormat.value === 'letter';

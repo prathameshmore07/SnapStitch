@@ -1,6 +1,8 @@
-# Screenshot Arranger and Document Compiler
+# SnapStitch
 
-A tool to sequence and compile screenshots and image assets into formatted Microsoft Word (`.docx`) and PDF (`.pdf`) documents.
+A minimalist tool to sequence and compile screenshots and image assets into clean Microsoft Word (`.docx`) and PDF (`.pdf`) documents.
+
+**Created by Prathamesh**
 
 ---
 
@@ -18,7 +20,7 @@ Doing this manually is frustrating and tedious:
 
 ## The Solution
 
-This tool automates the entire process:
+SnapStitch automates the entire process:
 - **Instant Ingestion**: Drag and drop any number of screenshots into the web interface, paste them from the clipboard (`Cmd+V` / `Ctrl+V`), or place them directly into the `ss/` folder.
 - **Automatic Sequence**: Images are arranged chronologically or in your custom defined order.
 - **Smart Formatting**: Image dimensions and aspect ratios are calculated automatically to fit page bounds without manual resizing.
@@ -31,7 +33,7 @@ This tool automates the entire process:
 ```mermaid
 flowchart LR
     subgraph Ingestion["1. Image Ingestion"]
-        A["Screenshots & Diagrams"] --> B["Drag-and-Drop / Paste (Web UI)"]
+        A["Screenshots & Diagrams"] --> B["Drag-and-Drop / Paste (SnapStitch Web UI)"]
         A --> C["Direct Placement (ss/ directory)"]
     end
 
@@ -58,6 +60,7 @@ flowchart LR
 - **Automated Chronological Sequencing**: Automatically orders images based on creation or modification timestamps, with manual reordering capabilities in the web interface.
 - **Dynamic Dimension Scaling**: Automatically computes proportions to ensure all images fit cleanly within standard page boundaries (Letter / A4) without cropping or distortion.
 - **Dual Format Compilation**: Compiles both Microsoft Word (`.docx`) and PDF (`.pdf`) formats in a single pass.
+- **Clean Output**: Generated documents are clean and unwatermarked for official academic and professional submissions.
 - **Flexible Execution**: Operates via a minimalist web interface or direct command-line interface (CLI).
 - **Automated Directory Persistence**: Images submitted through the web interface are automatically persisted in the `ss/` directory, while compiled documents are written directly to `output/`.
 
@@ -66,7 +69,7 @@ flowchart LR
 ## Project Structure
 
 ```text
-├── index.html           # Minimalist web application interface
+├── index.html           # SnapStitch minimalist web application
 ├── server.py            # Local HTTP service and API handler
 ├── main.py              # Core compilation engine and CLI entry point
 ├── TEST.PY              # Backward-compatible execution wrapper
@@ -115,7 +118,7 @@ flowchart LR
 
 ### Method 1: Web Application Interface (Recommended)
 
-1. Launch the application:
+1. Launch SnapStitch:
    ```bash
    python3 main.py
    ```
@@ -148,3 +151,9 @@ flowchart LR
 | Image Processing | `Pillow` (PIL) |
 | Frontend | Vanilla JavaScript, HTML5, CSS3 (No external framework dependencies) |
 | Supported Image Formats | PNG, JPEG, JPG, WEBP, BMP, TIFF, GIF |
+
+---
+
+## Author
+
+**Prathamesh**
