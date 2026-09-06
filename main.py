@@ -156,7 +156,7 @@ def run_cli():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     print("========================================")
-    print(" Screenshot Arranger (CLI Mode)")
+    print(" SnapStitch (CLI Mode)")
     print("========================================")
     print(f"Scanning folder: {INPUT_DIR}")
 

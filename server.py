@@ -253,7 +253,7 @@ def run_server(port: int = 5050, open_browser: bool = True):
 
     url = f"http://localhost:{port}"
     print("\n" + "=" * 50)
-    print(" Screenshot Arranger — Minimalist Web Service")
+    print(" SnapStitch — Minimalist Document Compiler")
     print("=" * 50)
     print(f" • Running at:    {url}")
     print(f" • Screenshot dir: {INPUT_DIR}")
