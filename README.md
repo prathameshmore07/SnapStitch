@@ -1,20 +1,28 @@
 # Screenshot Arranger and Document Compiler
 
-A high-efficiency tool for aggregating, sequencing, and compiling bulk screenshots and image assets into professionally formatted Microsoft Word (`.docx`) and PDF (`.pdf`) documents.
+A tool to sequence and compile screenshots and image assets into formatted Microsoft Word (`.docx`) and PDF (`.pdf`) documents.
 
 ---
 
-## Problem Statement
+## The Problem
 
-When preparing academic lab submissions, technical reports, bug documentation, or project portfolios, users frequently capture dozens of screenshots across terminals, simulators, and browser sessions.
+When preparing lab submissions, assignments, project documentation, or technical reports, you often capture dozens of screenshots or download reference diagrams that need to be organized in a specific order.
 
-The manual compilation workflow presents several friction points:
-- **Repetitive Formatting**: Individually inserting dozens of screenshots into a word processor is tedious and time-consuming.
-- **Inconsistent Layouts**: Manual scaling often results in distorted aspect ratios, awkward page overflows, or misaligned margins.
-- **Ordering Difficulties**: Keeping screenshots in the exact execution sequence requires constant manual reorganization.
-- **Redundant Exporting**: Generating both editable Word documents and shareable PDFs requires separate export workflows.
+Doing this manually is frustrating and tedious:
+- You have to insert images one by one into a document editor.
+- You waste time resizing each screenshot so it does not overflow margins or get distorted.
+- Keeping images in their correct sequential order requires constant readjustment.
+- You have to repeat export steps to produce both editable Word files and submission-ready PDFs.
 
-This tool solves these pain points by providing an automated pipeline that accepts screenshots via an interactive drag-and-drop interface or local directory, preserves native aspect ratios, sequences items in chronological or custom order, and outputs both formatted DOCX and PDF documents simultaneously.
+---
+
+## The Solution
+
+This tool automates the entire process:
+- **Instant Ingestion**: Drag and drop any number of screenshots into the web interface, paste them from the clipboard (`Cmd+V` / `Ctrl+V`), or place them directly into the `ss/` folder.
+- **Automatic Sequence**: Images are arranged chronologically or in your custom defined order.
+- **Smart Formatting**: Image dimensions and aspect ratios are calculated automatically to fit page bounds without manual resizing.
+- **Dual Export**: Compiles both `.docx` and `.pdf` files simultaneously, saving them to the `output/` directory and providing instant on-screen download buttons.
 
 ---
 
