@@ -61,16 +61,10 @@
     /* Minimal Header */
     header {
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand {
-      display: flex;
       flex-direction: column;
       gap: 4px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
     }
 
     h1 {
@@ -83,21 +77,6 @@
     p.subtitle {
       font-size: 0.82rem;
       color: var(--text-muted);
-    }
-
-    .status-badge {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--text-subtle);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 3px 8px;
-      border-radius: 999px;
-    }
-
-    .status-badge.online {
-      color: var(--success);
-      border-color: rgba(16, 185, 129, 0.3);
     }
 
     /* Minimal Drop Zone */
@@ -489,11 +468,8 @@
   <div class="container">
     <!-- Minimal Header -->
     <header>
-      <div class="brand">
-        <h1>Screenshot Arranger</h1>
-        <p class="subtitle">Drag & drop screenshots • Saves to <code>ss/</code> and <code>output/</code></p>
-      </div>
-      <div class="status-badge" id="serverBadge">Connecting...</div>
+      <h1>Screenshot Arranger</h1>
+      <p class="subtitle">Drop screenshots • Saves to <code>ss/</code> and <code>output/</code></p>
     </header>
 
     <!-- Drop Zone -->
@@ -591,24 +567,15 @@
     const fileInfo = document.getElementById('fileInfo');
     const pdfDownloadLink = document.getElementById('pdfDownloadLink');
     const docxDownloadLink = document.getElementById('docxDownloadLink');
-    const serverBadge = document.getElementById('serverBadge');
     const toast = document.getElementById('toast');
 
-    // Check if Python backend server is active
+    // Silent background check for Python backend
     async function checkServer() {
       try {
         const res = await fetch('/api/status', { method: 'GET' });
-        if (res.ok) {
-          isServerAvailable = true;
-          serverBadge.textContent = 'Python Backend Connected';
-          serverBadge.classList.add('online');
-        } else {
-          throw new Error();
-        }
+        if (res.ok) isServerAvailable = true;
       } catch (e) {
         isServerAvailable = false;
-        serverBadge.textContent = 'Browser Standalone Mode';
-        serverBadge.classList.remove('online');
       }
     }
     checkServer();
@@ -682,7 +649,7 @@
             count++;
             if (count === files.length) {
               render();
-              resultCard.style.display = 'none'; // reset previous result
+              resultCard.style.display = 'none';
               notify(`Added ${files.length} screenshot(s)`);
             }
           };
@@ -767,7 +734,7 @@
       const cleanDocName = docName.value.trim() || 'arranged_screenshots';
 
       if (isServerAvailable) {
-        // --- Mode 1: Full Python Backend Engine ---
+        // Mode 1: Full Python Backend
         try {
           const payload = {
             docName: cleanDocName,
@@ -788,7 +755,6 @@
           const data = await response.json();
 
           if (data.success) {
-            // Update download links on screen
             pdfDownloadLink.href = `/api/download/pdf?t=${Date.now()}`;
             pdfDownloadLink.download = `${cleanDocName}.pdf`;
 
@@ -810,9 +776,8 @@
           generateBtnText.textContent = 'Compile & Save Documents';
         }
       } else {
-        // --- Mode 2: Client-side Browser Fallback ---
+        // Mode 2: Client-side Browser Fallback
         try {
-          // Generate PDF Blob
           const { jsPDF } = window.jspdf;
           const isLetter = pageFormat.value === 'letter';
           const doc = new jsPDF({
@@ -859,7 +824,6 @@
           pdfDownloadLink.href = pdfUrl;
           pdfDownloadLink.download = `${cleanDocName}.pdf`;
 
-          // Generate DOCX Blob
           const { Document, Packer, Paragraph, TextRun, ImageRun } = docx;
           const children = [];
 
