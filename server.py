@@ -42,6 +42,9 @@ class ScreenshotServerHandler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
 
+    def do_HEAD(self):
+        self.do_GET()
+
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path
@@ -194,10 +197,10 @@ class ScreenshotServerHandler(BaseHTTPRequestHandler):
                 CURRENT_PDF = os.path.join(OUTPUT_DIR, pdf_filename)
 
                 # Generate Word DOCX
-                core.create_docx(saved_image_paths, CURRENT_DOCX)
+                core.create_docx(saved_image_paths, CURRENT_DOCX, show_captions=show_captions)
 
                 # Generate PDF
-                core.create_pdf(saved_image_paths, CURRENT_PDF)
+                core.create_pdf(saved_image_paths, CURRENT_PDF, show_captions=show_captions, page_format=page_format)
 
                 self.send_json(200, {
                     "success": True,

@@ -23,8 +23,10 @@
     :root {
       --bg: #09090b;
       --surface: #121215;
-      --surface-hover: #18181c;
+      --surface-card: #16161b;
+      --surface-hover: #1c1c22;
       --border: #27272a;
+      --border-subtle: #1f1f23;
       --border-focus: #3b82f6;
       --text: #fafafa;
       --text-muted: #a1a1aa;
@@ -55,51 +57,92 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 60px 24px;
+      padding: 24px 20px 32px;
     }
 
-    .container {
+    /* Top Navigation / Brand Header */
+    .top-header {
       width: 100%;
-      max-width: 640px;
+      max-width: 1040px;
       display: flex;
-      flex-direction: column;
-      gap: 28px;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      margin-bottom: 4px;
+      border-bottom: 1px solid var(--border-subtle);
     }
 
-    /* Centered Header */
-    header {
+    .brand-left {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      text-align: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .brand-logo {
-      height: 42px;
+      height: 32px;
       width: auto;
       object-fit: contain;
       display: block;
-      transition: transform 0.2s ease;
     }
 
-    .brand-logo:hover {
-      transform: scale(1.02);
+    .brand-tagline {
+      font-size: 0.8rem;
+      color: var(--text-subtle);
+      border-left: 1px solid var(--border);
+      padding-left: 12px;
+      display: inline-block;
     }
 
-    p.subtitle {
-      font-size: 0.88rem;
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
       color: var(--text-muted);
-      line-height: 1.5;
+      font-size: 0.76rem;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: all 0.15s;
     }
 
-    /* Centered Drop Zone */
+    .btn-badge:hover {
+      border-color: var(--text-subtle);
+      color: var(--text);
+    }
+
+    /* Main Dashboard Grid (2 Columns: Workspace & Studio Controls) */
+    .dashboard-grid {
+      width: 100%;
+      max-width: 1040px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 20px;
+      align-items: start;
+      margin-top: 16px;
+    }
+
+    /* LEFT COLUMN: Upload & Queue */
+    .workspace-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Drop Zone */
     .dropzone {
       background: var(--surface);
       border: 1px dashed var(--border);
       border-radius: var(--radius-lg);
-      padding: 48px 24px;
+      padding: 36px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -107,14 +150,49 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
+    }
+
+    .dropzone.compact {
+      padding: 12px 16px;
+      flex-direction: row;
+      justify-content: space-between;
+      border-style: solid;
+      background: var(--surface-card);
+      border-color: var(--border);
+      border-radius: var(--radius-md);
+    }
+
+    .dropzone.compact .dropzone-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--accent);
+      transform: none !important;
+    }
+
+    .dropzone.compact .dropzone-subtext {
+      display: none;
+    }
+
+    .dropzone.compact .dropzone-text {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .dropzone.compact .dropzone-shortcut {
+      font-size: 0.72rem;
+      color: var(--text-subtle);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 3px 7px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
     }
 
     .dropzone:hover, .dropzone.dragover {
       border-color: var(--border-focus);
       background: var(--surface-hover);
-      box-shadow: 0 0 24px -4px rgba(59, 130, 246, 0.15);
-      transform: translateY(-1px);
+      box-shadow: 0 0 24px -6px rgba(59, 130, 246, 0.2);
     }
 
     .dropzone-icon {
@@ -128,13 +206,13 @@
     }
 
     .dropzone-text {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 500;
       color: var(--text);
     }
 
     .dropzone-subtext {
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       color: var(--text-subtle);
     }
 
@@ -142,33 +220,94 @@
       display: none;
     }
 
-    /* Queue Section */
-    .queue-section {
+    /* Queue Card */
+    .queue-panel {
       display: none;
       flex-direction: column;
-      gap: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
     }
 
     .queue-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.84rem;
-      color: var(--text-muted);
-      padding: 0 2px;
+      padding: 12px 16px;
+      background: var(--surface-card);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
     }
 
-    .queue-count {
-      color: var(--text);
+    .queue-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .queue-title {
       font-weight: 600;
+      color: var(--text);
+      font-size: 0.84rem;
+    }
+
+    .queue-pill {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .queue-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sort-select {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      padding: 3px 6px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .sort-select:focus {
+      border-color: var(--border-focus);
+    }
+
+    .view-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-subtle);
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .view-btn.active {
+      background: var(--border);
+      color: var(--text);
     }
 
     .clear-link {
       background: none;
       border: none;
       color: var(--text-subtle);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       cursor: pointer;
+      padding: 2px 4px;
       transition: color 0.15s;
     }
 
@@ -176,59 +315,61 @@
       color: var(--danger);
     }
 
-    /* Image List */
-    .images-list {
+    /* Scrollable Container (Fixed Height to prevent page stretching) */
+    .images-scroll-box {
+      max-height: 440px;
+      overflow-y: auto;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      max-height: 400px;
-      overflow-y: auto;
-      padding-right: 4px;
+      gap: 6px;
     }
 
-    .images-list::-webkit-scrollbar {
-      width: 4px;
+    .images-scroll-box::-webkit-scrollbar {
+      width: 5px;
     }
-    .images-list::-webkit-scrollbar-thumb {
+    .images-scroll-box::-webkit-scrollbar-thumb {
       background: var(--border);
       border-radius: 999px;
     }
 
+    /* List View Row */
     .image-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 8px 12px;
-      gap: 12px;
-      transition: background 0.15s ease, border-color 0.15s ease;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+      gap: 10px;
+      transition: all 0.15s ease;
     }
 
     .image-row:hover {
       background: var(--surface-hover);
-      border-color: rgba(255, 255, 255, 0.12);
+      border-color: var(--border);
     }
 
     .image-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       min-width: 0;
       flex: 1;
     }
 
     .row-index {
-      font-size: 0.8rem;
+      font-size: 0.72rem;
+      font-weight: 600;
       color: var(--text-subtle);
-      min-width: 20px;
+      min-width: 18px;
       font-variant-numeric: tabular-nums;
     }
 
     .row-thumb {
-      width: 46px;
-      height: 32px;
+      width: 42px;
+      height: 28px;
       border-radius: 4px;
       object-fit: cover;
       background: #000;
@@ -239,12 +380,13 @@
     .row-meta {
       display: flex;
       flex-direction: column;
-      gap: 2px;
       min-width: 0;
+      flex: 1;
+      gap: 1px;
     }
 
     .row-name {
-      font-size: 0.84rem;
+      font-size: 0.8rem;
       font-weight: 500;
       color: var(--text);
       white-space: nowrap;
@@ -253,24 +395,24 @@
     }
 
     .row-details {
-      font-size: 0.74rem;
+      font-size: 0.68rem;
       color: var(--text-subtle);
     }
 
     .row-actions {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 2px;
       flex-shrink: 0;
     }
 
     .action-btn {
       background: transparent;
-      border: 1px solid transparent;
+      border: none;
       border-radius: 4px;
       color: var(--text-subtle);
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -290,35 +432,107 @@
 
     .action-btn.delete-btn:hover {
       color: var(--danger);
-      background: rgba(244, 63, 94, 0.1);
+      background: rgba(244, 63, 94, 0.15);
     }
 
-    /* Options Grid */
-    .options-row {
+    /* Grid View */
+    .images-scroll-box.grid-mode {
       display: grid;
-      grid-template-columns: 2fr 1fr auto;
-      gap: 12px;
-      align-items: end;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
     }
 
-    .field {
+    .images-scroll-box.grid-mode .image-row {
+      flex-direction: column;
+      padding: 8px;
+      gap: 6px;
+      position: relative;
+    }
+
+    .images-scroll-box.grid-mode .image-left {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      gap: 6px;
+    }
+
+    .images-scroll-box.grid-mode .row-index {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(2px);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      color: #fff;
+    }
+
+    .images-scroll-box.grid-mode .row-thumb {
+      width: 100%;
+      height: 72px;
+    }
+
+    .images-scroll-box.grid-mode .row-meta {
+      width: 100%;
+    }
+
+    .images-scroll-box.grid-mode .row-actions {
+      width: 100%;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 4px;
+    }
+
+    /* RIGHT COLUMN: Studio Settings & Output Controls */
+    .studio-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title svg {
+      color: var(--accent);
+    }
+
+    .form-group {
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
 
-    .field-label {
+    .form-label {
       font-size: 0.72rem;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-subtle);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
     .field-input, .field-select {
-      background: var(--surface);
+      width: 100%;
+      background: var(--surface-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       color: var(--text);
@@ -332,61 +546,87 @@
       border-color: var(--border-focus);
     }
 
-    .field-checkbox {
+    .field-toggle-row {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding-bottom: 10px;
-      font-size: 0.84rem;
-      color: var(--text-muted);
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
       cursor: pointer;
       user-select: none;
+      transition: border-color 0.15s;
     }
 
-    .field-checkbox input {
+    .field-toggle-row:hover {
+      border-color: var(--border);
+    }
+
+    .toggle-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toggle-title {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .toggle-sub {
+      font-size: 0.7rem;
+      color: var(--text-subtle);
+    }
+
+    .field-toggle-row input {
       accent-color: var(--accent);
-      width: 15px;
-      height: 15px;
+      width: 16px;
+      height: 16px;
       cursor: pointer;
     }
 
-    /* Primary Button */
+    /* Primary Compile Button */
     .btn-generate {
       background: var(--accent);
       color: var(--accent-text);
       border: none;
-      border-radius: var(--radius-md);
-      padding: 13px 20px;
-      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+      padding: 13px 18px;
+      font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: background 0.15s ease, transform 0.15s ease;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+      transition: all 0.15s ease;
     }
 
     .btn-generate:hover:not(:disabled) {
       background: var(--accent-hover);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
       transform: translateY(-1px);
     }
 
     .btn-generate:disabled {
       opacity: 0.4;
       cursor: not-allowed;
+      box-shadow: none;
       transform: none;
     }
 
-    /* Download Result Box */
+    /* Output Ready Card */
     .result-card {
       display: none;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 20px;
+      padding: 16px;
       animation: fadeIn 0.2s ease;
     }
 
@@ -399,7 +639,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
     }
 
     .result-status {
@@ -407,29 +647,24 @@
       align-items: center;
       gap: 6px;
       color: var(--success);
-      font-weight: 500;
+      font-weight: 600;
     }
 
-    .result-path {
-      color: var(--text-subtle);
-      font-size: 0.76rem;
-    }
-
-    .download-grid {
+    .result-files-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 8px;
     }
 
     .download-btn {
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      font-size: 0.86rem;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       cursor: pointer;
       text-decoration: none;
       transition: all 0.15s;
@@ -462,10 +697,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-      font-size: 0.82rem;
-      color: var(--text-subtle);
+      padding-top: 10px;
+      border-top: 1px solid var(--border-subtle);
     }
 
     .btn-reset {
@@ -473,13 +706,13 @@
       border: 1px solid rgba(244, 63, 94, 0.3);
       border-radius: var(--radius-sm);
       color: var(--danger);
-      padding: 7px 12px;
-      font-size: 0.8rem;
+      padding: 5px 9px;
+      font-size: 0.74rem;
       font-weight: 500;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       transition: all 0.15s ease;
     }
 
@@ -488,7 +721,7 @@
       border-color: var(--danger);
     }
 
-    /* Minimalist Confirmation Modal */
+    /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -510,17 +743,17 @@
       background: #141418;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 24px;
+      padding: 22px;
       width: 100%;
-      max-width: 420px;
+      max-width: 400px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     }
 
     .modal-title {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 600;
       color: var(--text);
       display: flex;
@@ -529,7 +762,7 @@
     }
 
     .modal-desc {
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
       line-height: 1.5;
     }
@@ -539,13 +772,13 @@
       padding: 2px 6px;
       border-radius: 4px;
       color: var(--text);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
     }
 
     .modal-actions {
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 8px;
       margin-top: 4px;
     }
 
@@ -554,16 +787,10 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       color: var(--text-muted);
-      padding: 8px 14px;
-      font-size: 0.84rem;
+      padding: 7px 12px;
+      font-size: 0.82rem;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .modal-cancel-btn:hover {
-      background: var(--surface);
-      color: var(--text);
     }
 
     .modal-confirm-btn {
@@ -571,35 +798,14 @@
       border: 1px solid var(--danger);
       border-radius: var(--radius-sm);
       color: #ffffff;
-      padding: 8px 14px;
-      font-size: 0.84rem;
+      padding: 7px 12px;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s;
     }
 
     .modal-confirm-btn:hover {
       background: var(--danger-hover);
-    }
-
-    /* Minimal Footer */
-    footer {
-      text-align: center;
-      font-size: 0.78rem;
-      color: var(--text-subtle);
-      padding-top: 20px;
-    }
-
-    .footer-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.15s ease;
-    }
-
-    .footer-link:hover {
-      color: var(--text);
-      text-decoration: underline;
     }
 
     /* Toast */
@@ -607,17 +813,17 @@
       position: fixed;
       bottom: 24px;
       right: 24px;
-      background: var(--surface);
+      background: var(--surface-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 10px 16px;
-      font-size: 0.82rem;
+      padding: 9px 14px;
+      font-size: 0.8rem;
       color: var(--text);
       opacity: 0;
       transform: translateY(10px);
       transition: all 0.2s ease;
       pointer-events: none;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
       z-index: 1001;
     }
 
@@ -626,106 +832,175 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 600px) {
-      body { padding: 40px 16px; }
-      .options-row { grid-template-columns: 1fr; }
-      .download-grid { grid-template-columns: 1fr; }
-      .reset-action-row { flex-direction: column; gap: 10px; align-items: flex-start; }
+    footer {
+      width: 100%;
+      max-width: 1040px;
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+      text-align: center;
+      font-size: 0.76rem;
+      color: var(--text-subtle);
+    }
+
+    .footer-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-link:hover {
+      color: var(--text);
+      text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 860px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      .studio-col {
+        position: static;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <!-- Centered Header with SnapStitch Logo -->
-    <header>
+  <!-- Top Header Navigation -->
+  <header class="top-header">
+    <div class="brand-left">
       <img src="logo.png" alt="SnapStitch" class="brand-logo" />
-      <p class="subtitle">Arrange screenshots into clean PDF and DOCX documents</p>
-    </header>
-
-    <!-- Centered Drop Zone -->
-    <div class="dropzone" id="dropzone">
-      <svg class="dropzone-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-        <polyline points="17 8 12 3 7 8"></polyline>
-        <line x1="12" y1="3" x2="12" y2="15"></line>
-      </svg>
-      <div class="dropzone-text">Drop screenshots or click to browse</div>
-      <div class="dropzone-subtext">PNG, JPG, WEBP, BMP • Paste anytime with ⌘V / Ctrl+V</div>
-      <input type="file" id="fileInput" multiple accept="image/*" />
+      <span class="brand-tagline">Screenshot to PDF & DOCX Compiler</span>
     </div>
+    <div class="header-actions">
+      <a href="https://github.com/prathameshmore07/SnapStitch" target="_blank" rel="noopener noreferrer" class="btn-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </header>
 
-    <!-- Queue & Customization -->
-    <div class="queue-section" id="queueSection">
-      <div class="queue-header">
-        <span>Screenshots Queue (<span class="queue-count" id="itemCount">0</span>)</span>
-        <button class="clear-link" id="clearBtn" type="button">Clear all</button>
+  <!-- Two-Column Executive Dashboard (Never pushes down!) -->
+  <main class="dashboard-grid">
+    
+    <!-- LEFT: Upload & Image Queue Area -->
+    <section class="workspace-col">
+      <!-- Dynamic Dropzone -->
+      <div class="dropzone" id="dropzone">
+        <svg class="dropzone-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <div class="dropzone-text" id="dropzoneText">Drop screenshots here or click to browse</div>
+        <div class="dropzone-subtext">PNG, JPG, WEBP, BMP • Paste anywhere with ⌘V / Ctrl+V</div>
+        <span class="dropzone-shortcut" id="dropzoneShortcut" style="display: none;">Paste (⌘V) or Click to add</span>
+        <input type="file" id="fileInput" multiple accept="image/*" />
       </div>
 
-      <!-- Image rows -->
-      <div class="images-list" id="imagesList"></div>
-
-      <!-- Settings -->
-      <div class="options-row">
-        <div class="field">
-          <label class="field-label" for="docName">Document Name</label>
-          <input class="field-input" type="text" id="docName" value="arranged_screenshots" placeholder="File name without extension" />
+      <!-- Queue Card with Contained Scrolling -->
+      <div class="queue-panel" id="queuePanel">
+        <div class="queue-header">
+          <div class="queue-title-wrap">
+            <span class="queue-title">Screenshots</span>
+            <span class="queue-pill" id="itemCount">0</span>
+          </div>
+          <div class="queue-tools">
+            <select class="sort-select" id="sortSelect" title="Sort screenshots">
+              <option value="custom">Custom Order</option>
+              <option value="az">Sort Name (A-Z)</option>
+              <option value="za">Sort Name (Z-A)</option>
+              <option value="reverse">Reverse Order</option>
+            </select>
+            <button type="button" class="view-btn active" id="listViewBtn" title="List View">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+            <button type="button" class="view-btn" id="gridViewBtn" title="Grid View">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </button>
+            <span style="color: var(--border-subtle); margin: 0 2px;">|</span>
+            <button class="clear-link" id="clearBtn" type="button">Clear</button>
+          </div>
         </div>
-        <div class="field">
-          <label class="field-label" for="pageFormat">Page Size</label>
+
+        <!-- Contained Scrollbox (Max Height 440px) -->
+        <div class="images-scroll-box" id="imagesList"></div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Document Settings & Direct Export Studio -->
+    <aside class="studio-col">
+      <div class="card">
+        <div class="card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Export Settings
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="docName">Document Name</label>
+          <input class="field-input" type="text" id="docName" value="arranged_screenshots" placeholder="Document title" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pageFormat">Page Format</label>
           <select class="field-select" id="pageFormat">
-            <option value="letter" selected>Letter</option>
-            <option value="a4">A4</option>
+            <option value="letter" selected>Letter (8.5 × 11 in)</option>
+            <option value="a4">A4 (210 × 297 mm)</option>
           </select>
         </div>
-        <label class="field-checkbox">
+
+        <label class="field-toggle-row">
+          <div class="toggle-info">
+            <span class="toggle-title">Numbered Captions</span>
+            <span class="toggle-sub">Print file names above images</span>
+          </div>
           <input type="checkbox" id="showCaptions" checked />
-          <span>Numbered captions</span>
         </label>
-      </div>
 
-      <!-- Action Button -->
-      <button class="btn-generate" id="generateBtn" type="button">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        <span id="generateBtnText">Compile & Save Documents</span>
-      </button>
-    </div>
-
-    <!-- Download Result Card -->
-    <div class="result-card" id="resultCard">
-      <div class="result-header">
-        <div class="result-status">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <span id="resultMessage">Documents compiled successfully!</span>
-        </div>
-        <span class="result-path" id="fileInfo">2 files ready</span>
-      </div>
-
-      <div class="download-grid">
-        <a class="download-btn download-pdf-btn" id="pdfDownloadLink" href="#" download="arranged_screenshots.pdf">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download PDF
-        </a>
-        <a class="download-btn download-docx-btn" id="docxDownloadLink" href="#" download="arranged_screenshots.docx">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          Download DOC (Word)
-        </a>
-      </div>
-
-      <!-- Delete Existing / Start New Clean Row -->
-      <div class="reset-action-row">
-        <span>Done downloading?</span>
-        <button type="button" class="btn-reset" id="openResetModalBtn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-          Clear Workspace & Start New
+        <!-- Compile Primary Button -->
+        <button class="btn-generate" id="generateBtn" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span id="generateBtnText">Compile to PDF & DOCX</span>
         </button>
       </div>
-    </div>
 
-    <footer>
-      SnapStitch • Built by <a href="https://github.com/prathameshmore07" target="_blank" rel="noopener noreferrer" class="footer-link">Prathamesh More</a>
-    </footer>
-  </div>
+      <!-- Output Ready Card (Appears here directly) -->
+      <div class="result-card" id="resultCard">
+        <div class="result-header">
+          <div class="result-status">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Ready for Download</span>
+          </div>
+          <span style="font-size: 0.74rem; color: var(--text-subtle);" id="fileInfo">2 documents</span>
+        </div>
+
+        <div class="result-files-grid">
+          <a class="download-btn download-pdf-btn" id="pdfDownloadLink" href="#" download="arranged_screenshots.pdf">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            PDF File
+          </a>
+          <a class="download-btn download-docx-btn" id="docxDownloadLink" href="#" download="arranged_screenshots.docx">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Word DOCX
+          </a>
+        </div>
+
+        <div class="reset-action-row">
+          <span style="font-size: 0.74rem; color: var(--text-subtle);">Finished?</span>
+          <button type="button" class="btn-reset" id="openResetModalBtn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            Clear Workspace
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <footer>
+    SnapStitch • Built by <a href="https://github.com/prathameshmore07" target="_blank" rel="noopener noreferrer" class="footer-link">Prathamesh More</a>
+  </footer>
 
   <!-- Confirmation Modal -->
   <div class="modal-overlay" id="confirmModal">
@@ -735,7 +1010,7 @@
         Clear Workspace?
       </div>
       <p class="modal-desc">
-        Are you sure? This will delete all saved screenshots from <code>ss/</code> and generated documents from <code>output/</code> so you can start your next task completely fresh.
+        Are you sure? This will delete all screenshots from <code>ss/</code> and generated files in <code>output/</code> so you can start completely fresh.
       </p>
       <div class="modal-actions">
         <button type="button" class="modal-cancel-btn" id="cancelModalBtn">Cancel</button>
@@ -748,15 +1023,21 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    const images = [];
+    let images = [];
     let isServerAvailable = false;
+    let isGridMode = false;
 
     // DOM Elements
     const dropzone = document.getElementById('dropzone');
+    const dropzoneText = document.getElementById('dropzoneText');
+    const dropzoneShortcut = document.getElementById('dropzoneShortcut');
     const fileInput = document.getElementById('fileInput');
-    const queueSection = document.getElementById('queueSection');
+    const queuePanel = document.getElementById('queuePanel');
     const imagesList = document.getElementById('imagesList');
     const itemCount = document.getElementById('itemCount');
+    const sortSelect = document.getElementById('sortSelect');
+    const listViewBtn = document.getElementById('listViewBtn');
+    const gridViewBtn = document.getElementById('gridViewBtn');
     const clearBtn = document.getElementById('clearBtn');
     const docName = document.getElementById('docName');
     const pageFormat = document.getElementById('pageFormat');
@@ -764,7 +1045,6 @@
     const generateBtn = document.getElementById('generateBtn');
     const generateBtnText = document.getElementById('generateBtnText');
     const resultCard = document.getElementById('resultCard');
-    const resultMessage = document.getElementById('resultMessage');
     const fileInfo = document.getElementById('fileInfo');
     const pdfDownloadLink = document.getElementById('pdfDownloadLink');
     const docxDownloadLink = document.getElementById('docxDownloadLink');
@@ -774,7 +1054,7 @@
     const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
     const toast = document.getElementById('toast');
 
-    // Silent background check for Python backend
+    // Check server backend
     async function checkServer() {
       try {
         const res = await fetch('/api/status', { method: 'GET' });
@@ -784,6 +1064,35 @@
       }
     }
     checkServer();
+
+    // View Toggles
+    listViewBtn.addEventListener('click', () => {
+      isGridMode = false;
+      listViewBtn.classList.add('active');
+      gridViewBtn.classList.remove('active');
+      imagesList.classList.remove('grid-mode');
+    });
+
+    gridViewBtn.addEventListener('click', () => {
+      isGridMode = true;
+      gridViewBtn.classList.add('active');
+      listViewBtn.classList.remove('active');
+      imagesList.classList.add('grid-mode');
+    });
+
+    // Sorting
+    sortSelect.addEventListener('change', () => {
+      const mode = sortSelect.value;
+      if (mode === 'az') {
+        images.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (mode === 'za') {
+        images.sort((a, b) => b.name.localeCompare(a.name));
+      } else if (mode === 'reverse') {
+        images.reverse();
+      }
+      render();
+      resultCard.style.display = 'none';
+    });
 
     // Drag & Drop
     ['dragenter', 'dragover'].forEach(name => {
@@ -813,9 +1122,9 @@
       fileInput.value = '';
     });
 
-    // Paste handler (Cmd+V / Ctrl+V)
+    // Global Paste Listener (⌘V / Ctrl+V)
     window.addEventListener('paste', (e) => {
-      const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+      const items = (e.clipboardData || e.originalEvent?.clipboardData)?.items || [];
       const files = [];
       for (const item of items) {
         if (item.type.indexOf('image') !== -1) {
@@ -825,7 +1134,7 @@
       }
       if (files.length) {
         processFiles(files);
-        notify(`Pasted ${files.length} image(s) from clipboard`);
+        notify(`Pasted ${files.length} screenshot(s)`);
       }
     });
 
@@ -836,7 +1145,7 @@
     }
 
     function processFiles(files) {
-      let count = 0;
+      let loaded = 0;
       files.forEach(file => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -851,8 +1160,8 @@
               width: img.naturalWidth,
               height: img.naturalHeight
             });
-            count++;
-            if (count === files.length) {
+            loaded++;
+            if (loaded === files.length) {
               render();
               resultCard.style.display = 'none';
               notify(`Added ${files.length} screenshot(s)`);
@@ -866,12 +1175,20 @@
 
     function render() {
       if (images.length === 0) {
-        queueSection.style.display = 'none';
+        queuePanel.style.display = 'none';
+        dropzone.classList.remove('compact');
+        dropzoneText.textContent = 'Drop screenshots here or click to browse';
+        dropzoneShortcut.style.display = 'none';
         return;
       }
 
-      queueSection.style.display = 'flex';
-      itemCount.textContent = images.length;
+      // Compact Dropzone
+      dropzone.classList.add('compact');
+      dropzoneText.textContent = '+ Add more screenshots';
+      dropzoneShortcut.style.display = 'inline-block';
+
+      queuePanel.style.display = 'flex';
+      itemCount.textContent = `${images.length} items`;
       imagesList.innerHTML = '';
 
       images.forEach((img, i) => {
@@ -879,7 +1196,7 @@
         row.className = 'image-row';
         row.innerHTML = `
           <div class="image-left">
-            <span class="row-index">${i + 1}</span>
+            <span class="row-index">#${i + 1}</span>
             <img class="row-thumb" src="${img.dataUrl}" alt="" />
             <div class="row-meta">
               <span class="row-name" title="${img.name}">${img.name}</span>
@@ -888,13 +1205,13 @@
           </div>
           <div class="row-actions">
             <button class="action-btn" title="Move Up" ${i === 0 ? 'disabled' : ''} onclick="reorder(${i}, -1)">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
             </button>
             <button class="action-btn" title="Move Down" ${i === images.length - 1 ? 'disabled' : ''} onclick="reorder(${i}, 1)">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <button class="action-btn delete-btn" title="Remove" onclick="removeItem(${i})">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
           </div>
         `;
@@ -907,6 +1224,7 @@
       if (target < 0 || target >= images.length) return;
       const item = images.splice(index, 1)[0];
       images.splice(target, 0, item);
+      sortSelect.value = 'custom';
       render();
       resultCard.style.display = 'none';
     };
@@ -918,7 +1236,7 @@
     };
 
     clearBtn.addEventListener('click', () => {
-      images.length = 0;
+      images = [];
       render();
       resultCard.style.display = 'none';
       notify('Cleared queue');
@@ -930,7 +1248,7 @@
       setTimeout(() => toast.classList.remove('visible'), 2400);
     }
 
-    // Modal Handlers
+    // Reset Modal Handlers
     openResetModalBtn.addEventListener('click', () => {
       confirmModal.classList.add('active');
     });
@@ -943,7 +1261,7 @@
       if (e.target === confirmModal) confirmModal.classList.remove('active');
     });
 
-    // Confirm Clear Workspace (Deletes from ss/ and output/)
+    // Clear Workspace
     confirmDeleteBtn.addEventListener('click', async () => {
       confirmModal.classList.remove('active');
       confirmDeleteBtn.disabled = true;
@@ -955,30 +1273,31 @@
           if (!data.success) throw new Error(data.error);
         }
 
-        // Reset frontend state
-        images.length = 0;
+        images = [];
         render();
         resultCard.style.display = 'none';
         docName.value = 'arranged_screenshots';
-        notify('Workspace cleared. Ready for next task!');
+        notify('Workspace reset. Ready for next project!');
       } catch (err) {
         console.error(err);
-        alert('Error clearing workspace: ' + err.message);
+        alert('Error resetting workspace: ' + err.message);
       } finally {
         confirmDeleteBtn.disabled = false;
       }
     });
 
-    // Compilation Handler
+    // Compile Documents
     generateBtn.addEventListener('click', async () => {
-      if (!images.length) return;
+      if (!images.length) {
+        notify('Please add screenshots first');
+        return;
+      }
 
       generateBtn.disabled = true;
-      generateBtnText.textContent = 'Processing & Compiling...';
+      generateBtnText.textContent = 'Compiling...';
       const cleanDocName = docName.value.trim() || 'arranged_screenshots';
 
       if (isServerAvailable) {
-        // Mode 1: Full Python Backend
         try {
           const payload = {
             docName: cleanDocName,
@@ -1005,22 +1324,21 @@
             docxDownloadLink.href = `/api/download/docx?t=${Date.now()}`;
             docxDownloadLink.download = `${cleanDocName}.docx`;
 
-            resultMessage.textContent = 'Documents compiled successfully!';
-            fileInfo.textContent = `${cleanDocName}.pdf & .docx`;
+            fileInfo.textContent = `${images.length} pages ready`;
             resultCard.style.display = 'flex';
-            notify('Files ready for download!');
+            notify('Documents compiled successfully!');
           } else {
             throw new Error(data.error || 'Compilation failed');
           }
         } catch (err) {
           console.error(err);
-          alert('Backend error: ' + err.message);
+          alert('Backend compilation error: ' + err.message);
         } finally {
           generateBtn.disabled = false;
-          generateBtnText.textContent = 'Compile & Save Documents';
+          generateBtnText.textContent = 'Compile to PDF & DOCX';
         }
       } else {
-        // Mode 2: Client-side Fallback
+        // Client side fallback
         try {
           const { jsPDF } = window.jspdf;
           const isLetter = pageFormat.value === 'letter';
@@ -1115,19 +1433,19 @@
           docxDownloadLink.href = docxUrl;
           docxDownloadLink.download = `${cleanDocName}.docx`;
 
-          resultMessage.textContent = 'Documents compiled successfully!';
-          fileInfo.textContent = `${cleanDocName}.pdf & .docx`;
+          fileInfo.textContent = `${images.length} pages ready`;
           resultCard.style.display = 'flex';
-          notify('Ready for download!');
+          notify('Documents compiled successfully!');
         } catch (err) {
           console.error(err);
-          alert('Error compiling documents: ' + err.message);
+          alert('Compilation error: ' + err.message);
         } finally {
           generateBtn.disabled = false;
-          generateBtnText.textContent = 'Compile & Save Documents';
+          generateBtnText.textContent = 'Compile to PDF & DOCX';
         }
       }
     });
   </script>
 </body>
 </html>
+
