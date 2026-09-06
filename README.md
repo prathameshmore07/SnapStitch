@@ -1,8 +1,6 @@
 # SnapStitch
 
-A minimalist tool to sequence and compile screenshots and image assets into clean Microsoft Word (`.docx`) and PDF (`.pdf`) documents.
-
-**Built by Prathamesh More**
+A tool to sequence and compile screenshots and image assets into clean Microsoft Word (`.docx`) and PDF (`.pdf`) documents.
 
 ---
 
@@ -61,7 +59,7 @@ flowchart LR
 - **Dynamic Dimension Scaling**: Automatically computes proportions to ensure all images fit cleanly within standard page boundaries (Letter / A4) without cropping or distortion.
 - **Dual Format Compilation**: Compiles both Microsoft Word (`.docx`) and PDF (`.pdf`) formats in a single pass.
 - **Clean Output**: Generated documents are clean and unwatermarked for official academic and professional submissions.
-- **Flexible Execution**: Operates via a minimalist web interface or direct command-line interface (CLI).
+- **Flexible Execution**: Operates via a clean web interface or direct command-line interface (CLI).
 - **Automated Directory Persistence**: Images submitted through the web interface are automatically persisted in the `ss/` directory, while compiled documents are written directly to `output/`.
 
 ---
@@ -69,7 +67,7 @@ flowchart LR
 ## Project Structure
 
 ```text
-├── index.html           # SnapStitch minimalist web application
+├── index.html           # SnapStitch web application
 ├── server.py            # Local HTTP service and API handler
 ├── main.py              # Core compilation engine and CLI entry point
 ├── TEST.PY              # Backward-compatible execution wrapper
