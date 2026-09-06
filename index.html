@@ -6,6 +6,10 @@
   <title>SnapStitch</title>
   <meta name="description" content="SnapStitch: Fast, minimalist tool to arrange screenshots and export clean PDF and DOCX documents." />
   
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="shortcut icon" href="favicon.ico" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -21,15 +25,18 @@
       --surface: #121215;
       --surface-hover: #18181c;
       --border: #27272a;
-      --border-focus: #52525b;
+      --border-focus: #3b82f6;
       --text: #fafafa;
       --text-muted: #a1a1aa;
       --text-subtle: #71717a;
-      --accent: #ffffff;
-      --accent-text: #09090b;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --accent-text: #ffffff;
       --success: #10b981;
       --danger: #f43f5e;
-      --radius: 8px;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
     }
 
     * {
@@ -47,81 +54,86 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 50px 20px 40px;
+      justify-content: flex-start;
+      padding: 60px 24px;
     }
 
     .container {
       width: 100%;
-      max-width: 680px;
+      max-width: 640px;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 28px;
     }
 
-    /* Minimal Header */
+    /* Centered Header */
     header {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand-row {
-      display: flex;
       align-items: center;
+      text-align: center;
+      gap: 10px;
     }
 
     .brand-logo {
-      height: 38px;
+      height: 42px;
       width: auto;
       object-fit: contain;
       display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .brand-logo:hover {
+      transform: scale(1.02);
     }
 
     p.subtitle {
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
+      line-height: 1.5;
     }
 
-    /* Minimal Drop Zone */
+    /* Centered & Polished Drop Zone */
     .dropzone {
       background: var(--surface);
       border: 1px dashed var(--border);
-      border-radius: var(--radius);
-      padding: 40px 20px;
+      border-radius: var(--radius-lg);
+      padding: 48px 24px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .dropzone:hover, .dropzone.dragover {
       border-color: var(--border-focus);
       background: var(--surface-hover);
+      box-shadow: 0 0 24px -4px rgba(59, 130, 246, 0.15);
+      transform: translateY(-1px);
     }
 
     .dropzone-icon {
       color: var(--text-subtle);
-      transition: color 0.15s ease;
+      transition: all 0.2s ease;
     }
 
     .dropzone:hover .dropzone-icon {
-      color: var(--text);
+      color: var(--accent);
+      transform: translateY(-2px);
     }
 
     .dropzone-text {
-      font-size: 0.88rem;
+      font-size: 0.92rem;
       font-weight: 500;
       color: var(--text);
     }
 
     .dropzone-subtext {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: var(--text-subtle);
     }
 
@@ -133,15 +145,16 @@
     .queue-section {
       display: none;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
 
     .queue-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
+      padding: 0 2px;
     }
 
     .queue-count {
@@ -153,7 +166,7 @@
       background: none;
       border: none;
       color: var(--text-subtle);
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       cursor: pointer;
       transition: color 0.15s;
     }
@@ -166,10 +179,10 @@
     .images-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      max-height: 380px;
+      gap: 8px;
+      max-height: 400px;
       overflow-y: auto;
-      padding-right: 2px;
+      padding-right: 4px;
     }
 
     .images-list::-webkit-scrollbar {
@@ -186,34 +199,35 @@
       justify-content: space-between;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 7px 10px;
-      gap: 10px;
-      transition: background 0.15s ease;
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      gap: 12px;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
 
     .image-row:hover {
       background: var(--surface-hover);
+      border-color: rgba(255, 255, 255, 0.12);
     }
 
     .image-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       min-width: 0;
       flex: 1;
     }
 
     .row-index {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: var(--text-subtle);
-      min-width: 18px;
+      min-width: 20px;
       font-variant-numeric: tabular-nums;
     }
 
     .row-thumb {
-      width: 42px;
-      height: 30px;
+      width: 46px;
+      height: 32px;
       border-radius: 4px;
       object-fit: cover;
       background: #000;
@@ -229,7 +243,7 @@
     }
 
     .row-name {
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 500;
       color: var(--text);
       white-space: nowrap;
@@ -238,14 +252,14 @@
     }
 
     .row-details {
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       color: var(--text-subtle);
     }
 
     .row-actions {
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       flex-shrink: 0;
     }
 
@@ -254,8 +268,8 @@
       border: 1px solid transparent;
       border-radius: 4px;
       color: var(--text-subtle);
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -278,20 +292,20 @@
       background: rgba(244, 63, 94, 0.1);
     }
 
-    /* Minimal Options */
+    /* Options Grid */
     .options-row {
       display: grid;
       grid-template-columns: 2fr 1fr auto;
-      gap: 10px;
+      gap: 12px;
       align-items: end;
-      padding-top: 10px;
+      padding-top: 14px;
       border-top: 1px solid var(--border);
     }
 
     .field {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
     }
 
     .field-label {
@@ -299,16 +313,16 @@
       font-weight: 500;
       color: var(--text-subtle);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
     }
 
     .field-input, .field-select {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: var(--radius-sm);
       color: var(--text);
-      padding: 8px 10px;
-      font-size: 0.82rem;
+      padding: 9px 12px;
+      font-size: 0.84rem;
       outline: none;
       transition: border-color 0.15s;
     }
@@ -321,55 +335,57 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      padding-bottom: 8px;
-      font-size: 0.82rem;
+      padding-bottom: 10px;
+      font-size: 0.84rem;
       color: var(--text-muted);
       cursor: pointer;
       user-select: none;
     }
 
     .field-checkbox input {
-      accent-color: var(--text);
-      width: 14px;
-      height: 14px;
+      accent-color: var(--accent);
+      width: 15px;
+      height: 15px;
       cursor: pointer;
     }
 
-    /* Primary Generate Button */
+    /* Primary Button */
     .btn-generate {
       background: var(--accent);
       color: var(--accent-text);
       border: none;
-      border-radius: var(--radius);
-      padding: 12px 18px;
-      font-size: 0.88rem;
+      border-radius: var(--radius-md);
+      padding: 13px 20px;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: opacity 0.15s ease;
+      transition: background 0.15s ease, transform 0.15s ease;
     }
 
     .btn-generate:hover:not(:disabled) {
-      opacity: 0.9;
+      background: var(--accent-hover);
+      transform: translateY(-1px);
     }
 
     .btn-generate:disabled {
       opacity: 0.4;
       cursor: not-allowed;
+      transform: none;
     }
 
     /* Download Result Box */
     .result-card {
       display: none;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
+      border-radius: var(--radius-lg);
+      padding: 18px;
       animation: fadeIn 0.2s ease;
     }
 
@@ -382,7 +398,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
     }
 
     .result-status {
@@ -395,19 +411,19 @@
 
     .result-path {
       color: var(--text-subtle);
-      font-size: 0.75rem;
+      font-size: 0.76rem;
     }
 
     .download-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
     }
 
     .download-btn {
-      padding: 11px 14px;
-      border-radius: var(--radius);
-      font-size: 0.84rem;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.86rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
@@ -426,6 +442,7 @@
 
     .download-pdf-btn:hover {
       background: #e4e4e7;
+      transform: translateY(-1px);
     }
 
     .download-docx-btn {
@@ -437,6 +454,7 @@
     .download-docx-btn:hover {
       background: var(--surface-hover);
       border-color: var(--border-focus);
+      transform: translateY(-1px);
     }
 
     /* Minimal Footer */
@@ -444,7 +462,7 @@
       text-align: center;
       font-size: 0.78rem;
       color: var(--text-subtle);
-      padding-top: 16px;
+      padding-top: 20px;
     }
 
     .footer-link {
@@ -462,19 +480,19 @@
     /* Toast */
     .toast {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 24px;
+      right: 24px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 8px 14px;
-      font-size: 0.8rem;
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      font-size: 0.82rem;
       color: var(--text);
       opacity: 0;
       transform: translateY(10px);
       transition: all 0.2s ease;
       pointer-events: none;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.5);
     }
 
     .toast.visible {
@@ -483,6 +501,7 @@
     }
 
     @media (max-width: 600px) {
+      body { padding: 40px 16px; }
       .options-row { grid-template-columns: 1fr; }
       .download-grid { grid-template-columns: 1fr; }
     }
@@ -491,17 +510,15 @@
 <body>
 
   <div class="container">
-    <!-- Header with SnapStitch Logo -->
+    <!-- Centered Header with SnapStitch Logo -->
     <header>
-      <div class="brand-row">
-        <img src="logo.png" alt="SnapStitch" class="brand-logo" />
-      </div>
+      <img src="logo.png" alt="SnapStitch" class="brand-logo" />
       <p class="subtitle">Arrange screenshots into clean PDF and DOCX documents</p>
     </header>
 
-    <!-- Drop Zone -->
+    <!-- Centered Drop Zone -->
     <div class="dropzone" id="dropzone">
-      <svg class="dropzone-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="dropzone-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
         <polyline points="17 8 12 3 7 8"></polyline>
         <line x1="12" y1="3" x2="12" y2="15"></line>
@@ -716,7 +733,7 @@
             <button class="action-btn" title="Move Up" ${i === 0 ? 'disabled' : ''} onclick="reorder(${i}, -1)">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
             </button>
-            <button class="action-btn title="Move Down" ${i === images.length - 1 ? 'disabled' : ''} onclick="reorder(${i}, 1)">
+            <button class="action-btn" title="Move Down" ${i === images.length - 1 ? 'disabled' : ''} onclick="reorder(${i}, 1)">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <button class="action-btn delete-btn" title="Remove" onclick="removeItem(${i})">

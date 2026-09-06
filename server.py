@@ -68,8 +68,20 @@ class ScreenshotServerHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-Length', str(len(content)))
                 self.end_headers()
                 self.wfile.write(content)
+        elif path in ('/favicon.png', '/favicon.ico'):
+            fav_name = "favicon.png" if path == '/favicon.png' else "favicon.ico"
+            fav_path = os.path.join(BASE_DIR, fav_name)
+            if os.path.exists(fav_path):
+                with open(fav_path, 'rb') as f:
+                    content = f.read()
+                content_type = 'image/png' if fav_name.endswith('.png') else 'image/x-icon'
+                self.send_response(200)
+                self.send_header('Content-Type', content_type)
+                self.send_header('Content-Length', str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
             else:
-                self.send_error(404, "logo.png not found")
+                self.send_error(404, "favicon not found")
 
         elif path == '/api/download/pdf':
             global CURRENT_PDF
