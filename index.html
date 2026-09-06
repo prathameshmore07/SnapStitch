@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SnapStitch — Minimalist Screenshot Arranger</title>
+  <title>SnapStitch</title>
   <meta name="description" content="SnapStitch: Fast, minimalist tool to arrange screenshots and export clean PDF and DOCX documents." />
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -58,7 +58,7 @@
       gap: 24px;
     }
 
-    /* Minimal Header with SnapStitch Branding */
+    /* Minimal Header */
     header {
       display: flex;
       flex-direction: column;
@@ -492,7 +492,7 @@
         <h1>SnapStitch</h1>
         <span class="version-tag">v1.0</span>
       </div>
-      <p class="subtitle">Arrange screenshots into clean PDF and DOCX documents • Auto-saves to <code>ss/</code> and <code>output/</code></p>
+      <p class="subtitle">Arrange screenshots into clean PDF and DOCX documents</p>
     </header>
 
     <!-- Drop Zone -->
@@ -548,7 +548,7 @@
       <div class="result-header">
         <div class="result-status">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <span id="resultMessage">Generated successfully! Saved to ss/ and output/</span>
+          <span id="resultMessage">Documents compiled successfully!</span>
         </div>
         <span class="result-path" id="fileInfo">2 files ready</span>
       </div>
@@ -788,10 +788,10 @@
             docxDownloadLink.href = `/api/download/docx?t=${Date.now()}`;
             docxDownloadLink.download = `${cleanDocName}.docx`;
 
-            resultMessage.textContent = `Saved ${data.count} image(s) to ss/ and compiled into output/`;
+            resultMessage.textContent = 'Documents compiled successfully!';
             fileInfo.textContent = `${cleanDocName}.pdf & .docx`;
             resultCard.style.display = 'flex';
-            notify('Files saved & ready for download!');
+            notify('Files ready for download!');
           } else {
             throw new Error(data.error || 'Compilation failed');
           }
@@ -898,7 +898,7 @@
           docxDownloadLink.href = docxUrl;
           docxDownloadLink.download = `${cleanDocName}.docx`;
 
-          resultMessage.textContent = 'Compiled ready in browser!';
+          resultMessage.textContent = 'Documents compiled successfully!';
           fileInfo.textContent = `${cleanDocName}.pdf & .docx`;
           resultCard.style.display = 'flex';
           notify('Ready for download!');
