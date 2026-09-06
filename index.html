@@ -34,6 +34,7 @@
       --accent-text: #ffffff;
       --success: #10b981;
       --danger: #f43f5e;
+      --danger-hover: #e11d48;
       --radius-sm: 6px;
       --radius-md: 10px;
       --radius-lg: 14px;
@@ -93,7 +94,7 @@
       line-height: 1.5;
     }
 
-    /* Centered & Polished Drop Zone */
+    /* Centered Drop Zone */
     .dropzone {
       background: var(--surface);
       border: 1px dashed var(--border);
@@ -381,11 +382,11 @@
     .result-card {
       display: none;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 18px;
+      padding: 20px;
       animation: fadeIn 0.2s ease;
     }
 
@@ -457,6 +458,130 @@
       transform: translateY(-1px);
     }
 
+    .reset-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--text-subtle);
+    }
+
+    .btn-reset {
+      background: transparent;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      border-radius: var(--radius-sm);
+      color: var(--danger);
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-reset:hover {
+      background: rgba(244, 63, 94, 0.12);
+      border-color: var(--danger);
+    }
+
+    /* Minimalist Confirmation Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      animation: fadeIn 0.15s ease;
+    }
+
+    .modal-card {
+      background: #141418;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .modal-desc code {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--text);
+      font-size: 0.8rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .modal-cancel-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .modal-cancel-btn:hover {
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .modal-confirm-btn {
+      background: var(--danger);
+      border: 1px solid var(--danger);
+      border-radius: var(--radius-sm);
+      color: #ffffff;
+      padding: 8px 14px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .modal-confirm-btn:hover {
+      background: var(--danger-hover);
+    }
+
     /* Minimal Footer */
     footer {
       text-align: center;
@@ -493,6 +618,7 @@
       transition: all 0.2s ease;
       pointer-events: none;
       box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+      z-index: 1001;
     }
 
     .toast.visible {
@@ -504,6 +630,7 @@
       body { padding: 40px 16px; }
       .options-row { grid-template-columns: 1fr; }
       .download-grid { grid-template-columns: 1fr; }
+      .reset-action-row { flex-direction: column; gap: 10px; align-items: flex-start; }
     }
   </style>
 </head>
@@ -584,11 +711,37 @@
           Download DOC (Word)
         </a>
       </div>
+
+      <!-- Delete Existing / Start New Clean Row -->
+      <div class="reset-action-row">
+        <span>Done downloading?</span>
+        <button type="button" class="btn-reset" id="openResetModalBtn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          Clear Workspace & Start New
+        </button>
+      </div>
     </div>
 
     <footer>
       SnapStitch • Built by <a href="https://github.com/prathameshmore" target="_blank" rel="noopener noreferrer" class="footer-link">Prathamesh More</a>
     </footer>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-card">
+      <div class="modal-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" color="#f43f5e"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        Clear Workspace?
+      </div>
+      <p class="modal-desc">
+        Are you sure? This will delete all saved screenshots from <code>ss/</code> and generated documents from <code>output/</code> so you can start your next task completely fresh.
+      </p>
+      <div class="modal-actions">
+        <button type="button" class="modal-cancel-btn" id="cancelModalBtn">Cancel</button>
+        <button type="button" class="modal-confirm-btn" id="confirmDeleteBtn">Yes, Clear All</button>
+      </div>
+    </div>
   </div>
 
   <!-- Toast -->
@@ -615,6 +768,10 @@
     const fileInfo = document.getElementById('fileInfo');
     const pdfDownloadLink = document.getElementById('pdfDownloadLink');
     const docxDownloadLink = document.getElementById('docxDownloadLink');
+    const openResetModalBtn = document.getElementById('openResetModalBtn');
+    const confirmModal = document.getElementById('confirmModal');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
     const toast = document.getElementById('toast');
 
     // Silent background check for Python backend
@@ -772,6 +929,45 @@
       toast.classList.add('visible');
       setTimeout(() => toast.classList.remove('visible'), 2400);
     }
+
+    // Modal Handlers
+    openResetModalBtn.addEventListener('click', () => {
+      confirmModal.classList.add('active');
+    });
+
+    cancelModalBtn.addEventListener('click', () => {
+      confirmModal.classList.remove('active');
+    });
+
+    confirmModal.addEventListener('click', (e) => {
+      if (e.target === confirmModal) confirmModal.classList.remove('active');
+    });
+
+    // Confirm Clear Workspace (Deletes from ss/ and output/)
+    confirmDeleteBtn.addEventListener('click', async () => {
+      confirmModal.classList.remove('active');
+      confirmDeleteBtn.disabled = true;
+
+      try {
+        if (isServerAvailable) {
+          const res = await fetch('/api/clear', { method: 'POST' });
+          const data = await res.json();
+          if (!data.success) throw new Error(data.error);
+        }
+
+        // Reset frontend state
+        images.length = 0;
+        render();
+        resultCard.style.display = 'none';
+        docName.value = 'arranged_screenshots';
+        notify('Workspace cleared. Ready for next task!');
+      } catch (err) {
+        console.error(err);
+        alert('Error clearing workspace: ' + err.message);
+      } finally {
+        confirmDeleteBtn.disabled = false;
+      }
+    });
 
     // Compilation Handler
     generateBtn.addEventListener('click', async () => {

@@ -77,6 +77,8 @@ flowchart LR
 ├── pyrightconfig.json   # Static analysis configuration
 ├── .gitignore           # Git ignore definitions
 ├── logo.png             # SnapStitch brand logo
+├── favicon.png          # Favicon icon
+├── USAGE.md             # Detailed operational user guide
 ├── ss/                  # Input directory for raw screenshot files
 └── output/              # Target directory for generated DOCX and PDF files
 ```

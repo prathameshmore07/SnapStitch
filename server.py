@@ -212,6 +212,31 @@ class ScreenshotServerHandler(BaseHTTPRequestHandler):
 
             except Exception as e:
                 self.send_json(500, {"error": str(e)})
+
+        elif path == '/api/clear':
+            try:
+                # Clear images in ss/
+                if os.path.exists(INPUT_DIR):
+                    for f in os.listdir(INPUT_DIR):
+                        if not f.startswith('.'):
+                            try:
+                                os.remove(os.path.join(INPUT_DIR, f))
+                            except Exception:
+                                pass
+
+                # Clear compiled files in output/
+                if os.path.exists(OUTPUT_DIR):
+                    for f in os.listdir(OUTPUT_DIR):
+                        if not f.startswith('.'):
+                            try:
+                                os.remove(os.path.join(OUTPUT_DIR, f))
+                            except Exception:
+                                pass
+
+                self.send_json(200, {"success": True, "message": "Workspace cleared"})
+            except Exception as e:
+                self.send_json(500, {"error": str(e)})
+
         else:
             self.send_error(404, "Endpoint not found")
 
