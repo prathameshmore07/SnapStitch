@@ -18,19 +18,18 @@ SnapStitch handles all of this automatically.
 
 ---
 
-## Smart Auto-Ordering
+## Automatic Chronological Ordering
 
-SnapStitch automatically arranges your screenshots in the exact sequence you need:
+SnapStitch automatically sequences your screenshots so your documentation follows your exact workflow:
 
-1. **Chronological Time Order (Earliest to Latest)**:
-   - When you drop screenshots or add them from your system, SnapStitch reads each file's creation timestamp.
-   - Your images are automatically sorted from the very first screenshot you took to the last one, preserving your exact chronological workflow without manual effort.
+1. **True Creation Time Sequencing**:
+   - SnapStitch automatically reads each file's creation timestamp and arranges all images in chronological order—from the earliest screenshot you captured to the very last one.
 
-2. **Custom File Name Sorting**:
-   - If you prefer naming your files (such as `01_setup.png`, `02_config.png`, `step_A.png`), SnapStitch can instantly sort them in alphabetical order (A to Z or Z to A) with a single click.
+2. **Works Regardless of File Names**:
+   - No matter what your files are named (default OS screenshot names, camera filenames, or random strings), you never need to rename them. SnapStitch sequences them based on when they were actually taken.
 
-3. **Instant Manual Reordering**:
-   - Fine-tune your document order at any time using simple Move Up and Move Down controls or reverse the entire list in one click.
+3. **Full Manual Control When Needed**:
+   - Fine-tune your document at any time using simple Move Up, Move Down, and Reverse controls in the web interface.
 
 ---
 
@@ -57,7 +56,7 @@ flowchart LR
     subgraph Step2["2. Smart Ordering"]
         B --> D["Auto-sorted Chronologically (First to Last)"]
         C --> D
-        D --> E["Optional: Sort by Name or Reorder"]
+        D --> E["Optional: Quick Reorder Controls"]
     end
 
     subgraph Step3["3. Automatic Formatting"]
