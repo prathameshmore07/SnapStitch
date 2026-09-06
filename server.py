@@ -58,6 +58,19 @@ class ScreenshotServerHandler(BaseHTTPRequestHandler):
             else:
                 self.send_error(404, "index.html not found")
 
+        elif path == '/logo.png':
+            logo_path = os.path.join(BASE_DIR, "logo.png")
+            if os.path.exists(logo_path):
+                with open(logo_path, 'rb') as f:
+                    content = f.read()
+                self.send_response(200)
+                self.send_header('Content-Type', 'image/png')
+                self.send_header('Content-Length', str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+            else:
+                self.send_error(404, "logo.png not found")
+
         elif path == '/api/download/pdf':
             global CURRENT_PDF
             if os.path.exists(CURRENT_PDF):

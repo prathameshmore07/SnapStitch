@@ -2,7 +2,7 @@
 
 A minimalist tool to sequence and compile screenshots and image assets into clean Microsoft Word (`.docx`) and PDF (`.pdf`) documents.
 
-**Created by Prathamesh**
+**Built by Prathamesh More**
 
 ---
 
@@ -76,6 +76,7 @@ flowchart LR
 ├── requirements.txt     # Project dependencies
 ├── pyrightconfig.json   # Static analysis configuration
 ├── .gitignore           # Git ignore definitions
+├── logo.png             # SnapStitch brand logo
 ├── ss/                  # Input directory for raw screenshot files
 └── output/              # Target directory for generated DOCX and PDF files
 ```
@@ -156,4 +157,5 @@ flowchart LR
 
 ## Author
 
-**Prathamesh**
+**Prathamesh More**
+- GitHub: [github.com/prathameshmore](https://github.com/prathameshmore)

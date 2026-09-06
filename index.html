@@ -62,7 +62,7 @@
     header {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
       padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
     }
@@ -70,20 +70,13 @@
     .brand-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
     }
 
-    h1 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      color: var(--text);
-    }
-
-    .version-tag {
-      font-size: 0.72rem;
-      color: var(--text-subtle);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    .brand-logo {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+      display: block;
     }
 
     p.subtitle {
@@ -449,9 +442,21 @@
     /* Minimal Footer */
     footer {
       text-align: center;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       color: var(--text-subtle);
       padding-top: 16px;
+    }
+
+    .footer-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--text);
+      text-decoration: underline;
     }
 
     /* Toast */
@@ -486,11 +491,10 @@
 <body>
 
   <div class="container">
-    <!-- Header with SnapStitch Branding -->
+    <!-- Header with SnapStitch Logo -->
     <header>
       <div class="brand-row">
-        <h1>SnapStitch</h1>
-        <span class="version-tag">v1.0</span>
+        <img src="logo.png" alt="SnapStitch" class="brand-logo" />
       </div>
       <p class="subtitle">Arrange screenshots into clean PDF and DOCX documents</p>
     </header>
@@ -566,7 +570,7 @@
     </div>
 
     <footer>
-      SnapStitch • Built by Prathamesh
+      SnapStitch • Built by <a href="https://github.com/prathameshmore" target="_blank" rel="noopener noreferrer" class="footer-link">Prathamesh More</a>
     </footer>
   </div>
 
@@ -712,7 +716,7 @@
             <button class="action-btn" title="Move Up" ${i === 0 ? 'disabled' : ''} onclick="reorder(${i}, -1)">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
             </button>
-            <button class="action-btn" title="Move Down" ${i === images.length - 1 ? 'disabled' : ''} onclick="reorder(${i}, 1)">
+            <button class="action-btn title="Move Down" ${i === images.length - 1 ? 'disabled' : ''} onclick="reorder(${i}, 1)">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <button class="action-btn delete-btn" title="Remove" onclick="removeItem(${i})">
