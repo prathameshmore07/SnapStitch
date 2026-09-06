@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Screenshot Arranger — PDF & DOCX</title>
-  <meta name="description" content="Minimalist screenshot arranger and instant PDF/DOCX compiler." />
+  <title>Screenshot Arranger — PDF & DOC</title>
+  <meta name="description" content="Minimalist screenshot arranger. Auto-saves to ss/ and output/ with instant PDF & DOC downloads." />
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   
-  <!-- CDN dependencies -->
+  <!-- Client-side fallback libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -19,7 +19,7 @@
     :root {
       --bg: #09090b;
       --surface: #121215;
-      --surface-hover: #18181b;
+      --surface-hover: #18181c;
       --border: #27272a;
       --border-focus: #52525b;
       --text: #fafafa;
@@ -27,6 +27,7 @@
       --text-subtle: #71717a;
       --accent: #ffffff;
       --accent-text: #09090b;
+      --success: #10b981;
       --danger: #f43f5e;
       --radius: 8px;
     }
@@ -46,35 +47,57 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 20px 40px;
+      padding: 50px 20px 40px;
     }
 
     .container {
       width: 100%;
-      max-width: 720px;
+      max-width: 680px;
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 24px;
     }
 
     /* Minimal Header */
     header {
       display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
 
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       font-weight: 600;
       letter-spacing: -0.02em;
       color: var(--text);
     }
 
     p.subtitle {
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
-      line-height: 1.5;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-subtle);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .status-badge.online {
+      color: var(--success);
+      border-color: rgba(16, 185, 129, 0.3);
     }
 
     /* Minimal Drop Zone */
@@ -82,7 +105,7 @@
       background: var(--surface);
       border: 1px dashed var(--border);
       border-radius: var(--radius);
-      padding: 44px 20px;
+      padding: 40px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -90,7 +113,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .dropzone:hover, .dropzone.dragover {
@@ -108,13 +131,13 @@
     }
 
     .dropzone-text {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 500;
       color: var(--text);
     }
 
     .dropzone-subtext {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-subtle);
     }
 
@@ -126,29 +149,27 @@
     .queue-section {
       display: none;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
     .queue-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
     }
 
     .queue-count {
       color: var(--text);
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .clear-link {
       background: none;
       border: none;
       color: var(--text-subtle);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       cursor: pointer;
       transition: color 0.15s;
     }
@@ -162,8 +183,17 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-      max-height: 420px;
+      max-height: 380px;
       overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .images-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    .images-list::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 999px;
     }
 
     .image-row {
@@ -173,8 +203,8 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 8px 12px;
-      gap: 12px;
+      padding: 7px 10px;
+      gap: 10px;
       transition: background 0.15s ease;
     }
 
@@ -185,21 +215,21 @@
     .image-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       min-width: 0;
       flex: 1;
     }
 
     .row-index {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-subtle);
       min-width: 18px;
       font-variant-numeric: tabular-nums;
     }
 
     .row-thumb {
-      width: 44px;
-      height: 32px;
+      width: 42px;
+      height: 30px;
       border-radius: 4px;
       object-fit: cover;
       background: #000;
@@ -215,7 +245,7 @@
     }
 
     .row-name {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 500;
       color: var(--text);
       white-space: nowrap;
@@ -224,14 +254,14 @@
     }
 
     .row-details {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--text-subtle);
     }
 
     .row-actions {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       flex-shrink: 0;
     }
 
@@ -240,8 +270,8 @@
       border: 1px solid transparent;
       border-radius: 4px;
       color: var(--text-subtle);
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -268,24 +298,24 @@
     .options-row {
       display: grid;
       grid-template-columns: 2fr 1fr auto;
-      gap: 12px;
+      gap: 10px;
       align-items: end;
-      padding-top: 12px;
+      padding-top: 10px;
       border-top: 1px solid var(--border);
     }
 
     .field {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .field-label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 500;
       color: var(--text-subtle);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
 
     .field-input, .field-select {
@@ -293,8 +323,8 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       color: var(--text);
-      padding: 9px 12px;
-      font-size: 0.85rem;
+      padding: 8px 10px;
+      font-size: 0.82rem;
       outline: none;
       transition: border-color 0.15s;
     }
@@ -306,9 +336,9 @@
     .field-checkbox {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding-bottom: 10px;
-      font-size: 0.85rem;
+      gap: 6px;
+      padding-bottom: 8px;
+      font-size: 0.82rem;
       color: var(--text-muted);
       cursor: pointer;
       user-select: none;
@@ -316,81 +346,131 @@
 
     .field-checkbox input {
       accent-color: var(--text);
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
       cursor: pointer;
     }
 
-    /* Actions */
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .btn-main {
-      flex: 1;
+    /* Primary Generate Button */
+    .btn-generate {
       background: var(--accent);
       color: var(--accent-text);
-      border: 1px solid var(--accent);
+      border: none;
       border-radius: var(--radius);
-      padding: 11px 16px;
+      padding: 12px 18px;
       font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       transition: opacity 0.15s ease;
     }
 
-    .btn-main:hover:not(:disabled) {
+    .btn-generate:hover:not(:disabled) {
       opacity: 0.9;
     }
 
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
+    .btn-generate:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Download Result Box */
+    .result-card {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 11px 16px;
-      font-size: 0.88rem;
+      padding: 16px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+    }
+
+    .result-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--success);
       font-weight: 500;
-      cursor: pointer;
+    }
+
+    .result-path {
+      color: var(--text-subtle);
+      font-size: 0.75rem;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .download-btn {
+      padding: 11px 14px;
+      border-radius: var(--radius);
+      font-size: 0.84rem;
+      font-weight: 600;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.15s ease;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s;
     }
 
-    .btn-outline:hover:not(:disabled) {
+    .download-pdf-btn {
+      background: #fafafa;
+      color: #09090b;
+      border: 1px solid #fafafa;
+    }
+
+    .download-pdf-btn:hover {
+      background: #e4e4e7;
+    }
+
+    .download-docx-btn {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .download-docx-btn:hover {
       background: var(--surface-hover);
       border-color: var(--border-focus);
-    }
-
-    .btn-main:disabled, .btn-outline:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
     }
 
     /* Toast */
     .toast {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 20px;
+      right: 20px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 10px 16px;
-      font-size: 0.85rem;
+      padding: 8px 14px;
+      font-size: 0.8rem;
       color: var(--text);
       opacity: 0;
-      transform: translateY(12px);
+      transform: translateY(10px);
       transition: all 0.2s ease;
       pointer-events: none;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.5);
     }
 
     .toast.visible {
@@ -399,52 +479,50 @@
     }
 
     @media (max-width: 600px) {
-      .options-row {
-        grid-template-columns: 1fr;
-        gap: 14px;
-      }
-      .button-group {
-        flex-direction: column;
-      }
+      .options-row { grid-template-columns: 1fr; }
+      .download-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Header -->
+    <!-- Minimal Header -->
     <header>
-      <h1>Screenshot Arranger</h1>
-      <p class="subtitle">Drop screenshots, arrange order, and export directly as PDF or DOCX.</p>
+      <div class="brand">
+        <h1>Screenshot Arranger</h1>
+        <p class="subtitle">Drag & drop screenshots • Saves to <code>ss/</code> and <code>output/</code></p>
+      </div>
+      <div class="status-badge" id="serverBadge">Connecting...</div>
     </header>
 
     <!-- Drop Zone -->
     <div class="dropzone" id="dropzone">
-      <svg class="dropzone-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="dropzone-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
         <polyline points="17 8 12 3 7 8"></polyline>
         <line x1="12" y1="3" x2="12" y2="15"></line>
       </svg>
-      <div class="dropzone-text">Drop images or click to browse</div>
-      <div class="dropzone-subtext">PNG, JPG, WEBP, BMP • Paste anytime with ⌘V</div>
+      <div class="dropzone-text">Drop any number of screenshots or click to browse</div>
+      <div class="dropzone-subtext">PNG, JPG, WEBP, BMP • Paste anytime with ⌘V / Ctrl+V</div>
       <input type="file" id="fileInput" multiple accept="image/*" />
     </div>
 
-    <!-- Images Queue & Options -->
+    <!-- Queue & Customization -->
     <div class="queue-section" id="queueSection">
       <div class="queue-header">
-        <span>Queue (<span class="queue-count" id="itemCount">0</span>)</span>
+        <span>Screenshots Queue (<span class="queue-count" id="itemCount">0</span>)</span>
         <button class="clear-link" id="clearBtn" type="button">Clear all</button>
       </div>
 
-      <!-- Image list items -->
+      <!-- Image rows -->
       <div class="images-list" id="imagesList"></div>
 
-      <!-- Options -->
+      <!-- Settings -->
       <div class="options-row">
         <div class="field">
           <label class="field-label" for="docName">Document Name</label>
-          <input class="field-input" type="text" id="docName" value="arranged_screenshots" placeholder="File name" />
+          <input class="field-input" type="text" id="docName" value="arranged_screenshots" placeholder="File name without extension" />
         </div>
         <div class="field">
           <label class="field-label" for="pageFormat">Page Size</label>
@@ -455,20 +533,36 @@
         </div>
         <label class="field-checkbox">
           <input type="checkbox" id="showCaptions" checked />
-          <span>Include captions</span>
+          <span>Numbered captions</span>
         </label>
       </div>
 
-      <!-- Export Buttons -->
-      <div class="button-group">
-        <button class="btn-main" id="pdfBtn" type="button">
+      <!-- Action Button -->
+      <button class="btn-generate" id="generateBtn" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span id="generateBtnText">Compile & Save Documents</span>
+      </button>
+    </div>
+
+    <!-- Download Result Card (Appears on screen after compilation) -->
+    <div class="result-card" id="resultCard">
+      <div class="result-header">
+        <div class="result-status">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span id="resultMessage">Generated successfully! Saved to ss/ and output/</span>
+        </div>
+        <span class="result-path" id="fileInfo">2 files ready</span>
+      </div>
+
+      <div class="download-grid">
+        <a class="download-btn download-pdf-btn" id="pdfDownloadLink" href="#" download="arranged_screenshots.pdf">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span id="pdfLabel">Download PDF</span>
-        </button>
-        <button class="btn-outline" id="docxBtn" type="button">
+          Download PDF
+        </a>
+        <a class="download-btn download-docx-btn" id="docxDownloadLink" href="#" download="arranged_screenshots.docx">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          <span id="docxLabel">Download DOCX</span>
-        </button>
+          Download DOC (Word)
+        </a>
       </div>
     </div>
   </div>
@@ -478,7 +572,9 @@
 
   <script>
     const images = [];
+    let isServerAvailable = false;
 
+    // DOM Elements
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
     const queueSection = document.getElementById('queueSection');
@@ -488,13 +584,36 @@
     const docName = document.getElementById('docName');
     const pageFormat = document.getElementById('pageFormat');
     const showCaptions = document.getElementById('showCaptions');
-    const pdfBtn = document.getElementById('pdfBtn');
-    const docxBtn = document.getElementById('docxBtn');
-    const pdfLabel = document.getElementById('pdfLabel');
-    const docxLabel = document.getElementById('docxLabel');
+    const generateBtn = document.getElementById('generateBtn');
+    const generateBtnText = document.getElementById('generateBtnText');
+    const resultCard = document.getElementById('resultCard');
+    const resultMessage = document.getElementById('resultMessage');
+    const fileInfo = document.getElementById('fileInfo');
+    const pdfDownloadLink = document.getElementById('pdfDownloadLink');
+    const docxDownloadLink = document.getElementById('docxDownloadLink');
+    const serverBadge = document.getElementById('serverBadge');
     const toast = document.getElementById('toast');
 
-    // Drag and drop
+    // Check if Python backend server is active
+    async function checkServer() {
+      try {
+        const res = await fetch('/api/status', { method: 'GET' });
+        if (res.ok) {
+          isServerAvailable = true;
+          serverBadge.textContent = 'Python Backend Connected';
+          serverBadge.classList.add('online');
+        } else {
+          throw new Error();
+        }
+      } catch (e) {
+        isServerAvailable = false;
+        serverBadge.textContent = 'Browser Standalone Mode';
+        serverBadge.classList.remove('online');
+      }
+    }
+    checkServer();
+
+    // Drag & Drop
     ['dragenter', 'dragover'].forEach(name => {
       dropzone.addEventListener(name, (e) => {
         e.preventDefault();
@@ -522,7 +641,7 @@
       fileInput.value = '';
     });
 
-    // Paste handler
+    // Paste handler (Cmd+V / Ctrl+V)
     window.addEventListener('paste', (e) => {
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
       const files = [];
@@ -534,7 +653,7 @@
       }
       if (files.length) {
         processFiles(files);
-        notify(`Pasted ${files.length} image(s)`);
+        notify(`Pasted ${files.length} image(s) from clipboard`);
       }
     });
 
@@ -563,6 +682,7 @@
             count++;
             if (count === files.length) {
               render();
+              resultCard.style.display = 'none'; // reset previous result
               notify(`Added ${files.length} screenshot(s)`);
             }
           };
@@ -596,13 +716,13 @@
           </div>
           <div class="row-actions">
             <button class="action-btn" title="Move Up" ${i === 0 ? 'disabled' : ''} onclick="reorder(${i}, -1)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
             </button>
             <button class="action-btn" title="Move Down" ${i === images.length - 1 ? 'disabled' : ''} onclick="reorder(${i}, 1)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <button class="action-btn delete-btn" title="Remove" onclick="removeItem(${i})">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
           </div>
         `;
@@ -616,17 +736,20 @@
       const item = images.splice(index, 1)[0];
       images.splice(target, 0, item);
       render();
+      resultCard.style.display = 'none';
     };
 
     window.removeItem = (index) => {
       images.splice(index, 1);
       render();
+      resultCard.style.display = 'none';
     };
 
     clearBtn.addEventListener('click', () => {
       images.length = 0;
       render();
-      notify('Cleared all');
+      resultCard.style.display = 'none';
+      notify('Cleared queue');
     });
 
     function notify(text) {
@@ -635,144 +758,166 @@
       setTimeout(() => toast.classList.remove('visible'), 2400);
     }
 
-    // PDF Export
-    pdfBtn.addEventListener('click', async () => {
+    // Compilation & Download Handler
+    generateBtn.addEventListener('click', async () => {
       if (!images.length) return;
-      pdfBtn.disabled = true;
-      pdfLabel.textContent = 'Exporting...';
 
-      try {
-        const { jsPDF } = window.jspdf;
-        const isLetter = pageFormat.value === 'letter';
-        const doc = new jsPDF({
-          orientation: 'portrait',
-          unit: 'mm',
-          format: isLetter ? 'letter' : 'a4',
-          compress: true
-        });
+      generateBtn.disabled = true;
+      generateBtnText.textContent = 'Processing & Compiling...';
+      const cleanDocName = docName.value.trim() || 'arranged_screenshots';
 
-        const pageWidth = isLetter ? 215.9 : 210;
-        const pageHeight = isLetter ? 279.4 : 297;
-        const margin = 12.7; // 0.5 in
+      if (isServerAvailable) {
+        // --- Mode 1: Full Python Backend Engine ---
+        try {
+          const payload = {
+            docName: cleanDocName,
+            pageFormat: pageFormat.value,
+            showCaptions: showCaptions.checked,
+            images: images.map(img => ({
+              name: img.name,
+              dataUrl: img.dataUrl
+            }))
+          };
 
-        const maxW = pageWidth - (margin * 2);
-        const maxH = pageHeight - (margin * 2) - (showCaptions.checked ? 10 : 0);
+          const response = await fetch('/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
 
-        for (let i = 0; i < images.length; i++) {
-          if (i > 0) doc.addPage();
-          const img = images[i];
-          let y = margin;
+          const data = await response.json();
 
-          if (showCaptions.checked) {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.setTextColor(160, 160, 160);
-            doc.text(`${i + 1}. ${img.name}`, margin, margin + 4);
-            y = margin + 8;
+          if (data.success) {
+            // Update download links on screen
+            pdfDownloadLink.href = `/api/download/pdf?t=${Date.now()}`;
+            pdfDownloadLink.download = `${cleanDocName}.pdf`;
+
+            docxDownloadLink.href = `/api/download/docx?t=${Date.now()}`;
+            docxDownloadLink.download = `${cleanDocName}.docx`;
+
+            resultMessage.textContent = `Saved ${data.count} image(s) to ss/ and compiled into output/`;
+            fileInfo.textContent = `${cleanDocName}.pdf & .docx`;
+            resultCard.style.display = 'flex';
+            notify('Files saved & ready for download!');
+          } else {
+            throw new Error(data.error || 'Compilation failed');
           }
-
-          const aspect = img.width / img.height;
-          let targetW = maxW;
-          let targetH = targetW / aspect;
-
-          if (targetH > maxH) {
-            targetH = maxH;
-            targetW = targetH * aspect;
-          }
-
-          const x = margin + (maxW - targetW) / 2;
-          const format = img.type.includes('png') ? 'PNG' : 'JPEG';
-          doc.addImage(img.dataUrl, format, x, y, targetW, targetH, undefined, 'FAST');
+        } catch (err) {
+          console.error(err);
+          alert('Backend error: ' + err.message);
+        } finally {
+          generateBtn.disabled = false;
+          generateBtnText.textContent = 'Compile & Save Documents';
         }
+      } else {
+        // --- Mode 2: Client-side Browser Fallback ---
+        try {
+          // Generate PDF Blob
+          const { jsPDF } = window.jspdf;
+          const isLetter = pageFormat.value === 'letter';
+          const doc = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: isLetter ? 'letter' : 'a4',
+            compress: true
+          });
 
-        const filename = (docName.value.trim() || 'arranged_screenshots') + '.pdf';
-        doc.save(filename);
-        notify('PDF exported');
-      } catch (err) {
-        console.error(err);
-        alert('Export error: ' + err.message);
-      } finally {
-        pdfBtn.disabled = false;
-        pdfLabel.textContent = 'Download PDF';
-      }
-    });
+          const pageWidth = isLetter ? 215.9 : 210;
+          const pageHeight = isLetter ? 279.4 : 297;
+          const margin = 12.7;
+          const maxW = pageWidth - (margin * 2);
+          const maxH = pageHeight - (margin * 2) - (showCaptions.checked ? 10 : 0);
 
-    // DOCX Export
-    docxBtn.addEventListener('click', async () => {
-      if (!images.length) return;
-      docxBtn.disabled = true;
-      docxLabel.textContent = 'Exporting...';
+          for (let i = 0; i < images.length; i++) {
+            if (i > 0) doc.addPage();
+            const img = images[i];
+            let y = margin;
 
-      try {
-        const { Document, Packer, Paragraph, TextRun, ImageRun } = docx;
-        const children = [];
+            if (showCaptions.checked) {
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(10);
+              doc.setTextColor(150, 150, 150);
+              doc.text(`${i + 1}. ${img.name}`, margin, margin + 4);
+              y = margin + 8;
+            }
 
-        for (let i = 0; i < images.length; i++) {
-          const img = images[i];
+            const aspect = img.width / img.height;
+            let targetW = maxW;
+            let targetH = targetW / aspect;
+            if (targetH > maxH) {
+              targetH = maxH;
+              targetW = targetH * aspect;
+            }
 
-          if (showCaptions.checked) {
+            const x = margin + (maxW - targetW) / 2;
+            const format = img.type.includes('png') ? 'PNG' : 'JPEG';
+            doc.addImage(img.dataUrl, format, x, y, targetW, targetH, undefined, 'FAST');
+          }
+
+          const pdfBlob = doc.output('blob');
+          const pdfUrl = URL.createObjectURL(pdfBlob);
+          pdfDownloadLink.href = pdfUrl;
+          pdfDownloadLink.download = `${cleanDocName}.pdf`;
+
+          // Generate DOCX Blob
+          const { Document, Packer, Paragraph, TextRun, ImageRun } = docx;
+          const children = [];
+
+          for (let i = 0; i < images.length; i++) {
+            const img = images[i];
+            if (showCaptions.checked) {
+              children.push(
+                new Paragraph({
+                  children: [new TextRun({ text: `${i + 1}. ${img.name}`, bold: true, size: 20, color: "444444" })],
+                  spacing: { before: 160, after: 80 }
+                })
+              );
+            }
+
+            const byteString = atob(img.dataUrl.split(',')[1]);
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let j = 0; j < byteString.length; j++) ia[j] = byteString.charCodeAt(j);
+
+            const aspect = img.width / img.height;
+            let targetW = 540;
+            let targetH = targetW / aspect;
+            if (targetH > 700) {
+              targetH = 700;
+              targetW = targetH * aspect;
+            }
+
             children.push(
               new Paragraph({
-                children: [
-                  new TextRun({
-                    text: `${i + 1}. ${img.name}`,
-                    bold: true,
-                    size: 20,
-                    color: "444444"
-                  })
-                ],
-                spacing: { before: 180, after: 80 }
+                children: [new ImageRun({ data: ia, transformation: { width: targetW, height: targetH } })],
+                spacing: { after: 220 }
               })
             );
           }
 
-          const byteString = atob(img.dataUrl.split(',')[1]);
-          const ab = new ArrayBuffer(byteString.length);
-          const ia = new Uint8Array(ab);
-          for (let j = 0; j < byteString.length; j++) ia[j] = byteString.charCodeAt(j);
+          const wordDoc = new Document({
+            sections: [{
+              properties: { page: { margin: { top: 720, right: 720, bottom: 720, left: 720 } } },
+              children: children
+            }]
+          });
 
-          const aspect = img.width / img.height;
-          let targetW = 540;
-          let targetH = targetW / aspect;
-          if (targetH > 700) {
-            targetH = 700;
-            targetW = targetH * aspect;
-          }
+          const docxBlob = await Packer.toBlob(wordDoc);
+          const docxUrl = URL.createObjectURL(docxBlob);
+          docxDownloadLink.href = docxUrl;
+          docxDownloadLink.download = `${cleanDocName}.docx`;
 
-          children.push(
-            new Paragraph({
-              children: [
-                new ImageRun({
-                  data: ia,
-                  transformation: { width: targetW, height: targetH }
-                })
-              ],
-              spacing: { after: 240 }
-            })
-          );
+          resultMessage.textContent = 'Compiled ready in browser!';
+          fileInfo.textContent = `${cleanDocName}.pdf & .docx`;
+          resultCard.style.display = 'flex';
+          notify('Ready for download!');
+        } catch (err) {
+          console.error(err);
+          alert('Error compiling documents: ' + err.message);
+        } finally {
+          generateBtn.disabled = false;
+          generateBtnText.textContent = 'Compile & Save Documents';
         }
-
-        const wordDoc = new Document({
-          sections: [{
-            properties: {
-              page: {
-                margin: { top: 720, right: 720, bottom: 720, left: 720 }
-              }
-            },
-            children: children
-          }]
-        });
-
-        const blob = await Packer.toBlob(wordDoc);
-        const filename = (docName.value.trim() || 'arranged_screenshots') + '.docx';
-        saveAs(blob, filename);
-        notify('DOCX exported');
-      } catch (err) {
-        console.error(err);
-        alert('DOCX export error: ' + err.message);
-      } finally {
-        docxBtn.disabled = false;
-        docxLabel.textContent = 'Download DOCX';
       }
     });
   </script>
