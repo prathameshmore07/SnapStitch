@@ -1,5 +1,7 @@
 # SnapStitch User Guide
 
+> **Navigation**: [**Overview (README.md)**](README.md) &nbsp;•&nbsp; [**User Guide & Setup (USAGE.md)**](USAGE.md)
+
 A step-by-step operational guide for aggregating, arranging, and compiling bulk screenshots into formatted Microsoft Word (`.docx`) and PDF (`.pdf`) documents.
 
 **Built by Prathamesh More**

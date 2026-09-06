@@ -1,5 +1,7 @@
 # SnapStitch
 
+> **Navigation**: [**Overview (README.md)**](README.md) &nbsp;•&nbsp; [**User Guide & Setup (USAGE.md)**](USAGE.md)
+
 A tool to sequence and compile screenshots and image assets into clean Microsoft Word (`.docx`) and PDF (`.pdf`) documents.
 
 ---
