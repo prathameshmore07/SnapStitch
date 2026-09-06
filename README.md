@@ -85,56 +85,9 @@ flowchart LR
 
 ---
 
-## Installation & Setup
+## Getting Started & Usage
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/prathameshmore07/SnapStitch.git
-   cd SnapStitch
-   ```
-
-2. **Create and activate a virtual environment:**
-   ```bash
-   # macOS / Linux
-   python3 -m venv venv
-   source venv/bin/activate
-
-   # Windows
-   python -m venv venv
-   venv\Scripts\activate
-   ```
-
-3. **Install required dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
----
-
-## Usage Guide
-
-### Method 1: Web Application Interface (Recommended)
-
-1. **Launch SnapStitch:**
-   ```bash
-   python3 main.py
-   ```
-2. The default browser will open to `http://localhost:5050`.
-3. Add screenshots by dragging and dropping files, using the file selector, or pasting from clipboard (`Cmd+V` / `Ctrl+V`).
-4. Reorder or remove items as necessary using the queue controls.
-5. Click **Compile & Save Documents**.
-6. Download the resulting PDF or DOCX files directly from the screen, or retrieve them from the `output/` directory.
-
-### Method 2: Command-Line Interface (CLI)
-
-1. Place your screenshot files directly into the `ss/` folder.
-2. Execute the compilation script:
-   ```bash
-   python3 main.py --cli
-   ```
-3. Retrieve compiled documents from the `output/` folder:
-   - `output/arranged_screenshots.docx`
-   - `output/arranged_screenshots.pdf`
+For full step-by-step setup instructions, pulling the repository, web interface guides, command-line operations, and workspace management, please refer to the detailed [**USAGE.md**](USAGE.md) guide.
 
 ---
 
