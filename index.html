@@ -3,265 +3,183 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Screenshot to PDF Converter | Fast & Beautiful</title>
-  <meta name="description" content="Drag and drop your screenshots to arrange and instantly export high-quality PDF and DOCX documents." />
+  <title>Screenshot Arranger — PDF & DOCX</title>
+  <meta name="description" content="Minimalist screenshot arranger and instant PDF/DOCX compiler." />
+  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <!-- jsPDF & docx.js from CDN with fallbacks -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- CDN dependencies -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
   <style>
     :root {
-      --bg-dark: #090d16;
-      --card-bg: rgba(22, 29, 47, 0.7);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --accent-primary: #6366f1;
-      --accent-primary-hover: #4f46e5;
-      --accent-secondary: #06b6d4;
-      --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --danger: #ef4444;
-      --success: #10b981;
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
+      --bg: #09090b;
+      --surface: #121215;
+      --surface-hover: #18181b;
+      --border: #27272a;
+      --border-focus: #52525b;
+      --text: #fafafa;
+      --text-muted: #a1a1aa;
+      --text-subtle: #71717a;
+      --accent: #ffffff;
+      --accent-text: #09090b;
+      --danger: #f43f5e;
+      --radius: 8px;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
 
     body {
-      background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.12) 0px, transparent 50%),
-        radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 60%);
-      background-attachment: fixed;
-      color: var(--text-main);
+      background-color: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 40px 20px;
+      padding: 60px 20px 40px;
     }
 
     .container {
       width: 100%;
-      max-width: 900px;
+      max-width: 720px;
       display: flex;
       flex-direction: column;
-      gap: 28px;
+      gap: 32px;
     }
 
-    /* Header */
+    /* Minimal Header */
     header {
-      text-align: center;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
       gap: 6px;
-      padding: 6px 14px;
-      background: rgba(99, 102, 241, 0.15);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #818cf8;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
     }
 
     h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      background: linear-gradient(135deg, #ffffff 30%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
     }
 
     p.subtitle {
-      font-size: 1.05rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
-      max-width: 580px;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
-    /* Drop Zone */
+    /* Minimal Drop Zone */
     .dropzone {
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 2px dashed rgba(99, 102, 241, 0.4);
-      border-radius: var(--radius-lg);
-      padding: 48px 24px;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 44px 20px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
     }
 
     .dropzone:hover, .dropzone.dragover {
-      border-color: #a855f7;
-      background: rgba(30, 41, 67, 0.8);
-      transform: translateY(-2px);
-      box-shadow: 0 16px 32px -8px rgba(99, 102, 241, 0.25);
+      border-color: var(--border-focus);
+      background: var(--surface-hover);
     }
 
     .dropzone-icon {
-      width: 68px;
-      height: 68px;
-      margin: 0 auto 16px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #a855f7;
-      transition: transform 0.3s ease;
+      color: var(--text-subtle);
+      transition: color 0.15s ease;
     }
 
     .dropzone:hover .dropzone-icon {
-      transform: scale(1.1) rotate(5deg);
+      color: var(--text);
     }
 
-    .dropzone-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .dropzone-desc {
-      color: var(--text-muted);
+    .dropzone-text {
       font-size: 0.9rem;
-      margin-bottom: 16px;
+      font-weight: 500;
+      color: var(--text);
     }
 
-    .browse-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 22px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: var(--radius-sm);
-      color: #fff;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-
-    .browse-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
+    .dropzone-subtext {
+      font-size: 0.8rem;
+      color: var(--text-subtle);
     }
 
     #fileInput {
       display: none;
     }
 
-    /* Main Card / Image List */
-    .section-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
+    /* Queue Section */
+    .queue-section {
       display: none;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
-    .section-header {
+    .queue-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 14px;
-    }
-
-    .section-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .count-chip {
-      background: var(--accent-primary);
-      color: white;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 999px;
-    }
-
-    .clear-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-dim);
       font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: color 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      color: var(--text-muted);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .clear-btn:hover {
+    .queue-count {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .clear-link {
+      background: none;
+      border: none;
+      color: var(--text-subtle);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+
+    .clear-link:hover {
       color: var(--danger);
     }
 
-    /* Images List */
+    /* Image List */
     .images-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      max-height: 480px;
+      gap: 6px;
+      max-height: 420px;
       overflow-y: auto;
-      padding-right: 4px;
     }
 
-    .images-list::-webkit-scrollbar {
-      width: 6px;
-    }
-    .images-list::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 999px;
-    }
-
-    .image-item {
+    .image-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
-      gap: 14px;
-      transition: all 0.2s ease;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      gap: 12px;
+      transition: background 0.15s ease;
     }
 
-    .image-item:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(99, 102, 241, 0.3);
+    .image-row:hover {
+      background: var(--surface-hover);
     }
 
     .image-left {
@@ -272,55 +190,58 @@
       flex: 1;
     }
 
-    .item-index {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-dim);
-      min-width: 24px;
+    .row-index {
+      font-size: 0.8rem;
+      color: var(--text-subtle);
+      min-width: 18px;
+      font-variant-numeric: tabular-nums;
     }
 
-    .image-thumb {
-      width: 56px;
-      height: 44px;
-      border-radius: 6px;
+    .row-thumb {
+      width: 44px;
+      height: 32px;
+      border-radius: 4px;
       object-fit: cover;
-      border: 1px solid rgba(255, 255, 255, 0.1);
       background: #000;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
     }
 
-    .image-info {
+    .row-meta {
       display: flex;
       flex-direction: column;
       gap: 2px;
       min-width: 0;
     }
 
-    .image-name {
-      font-size: 0.9rem;
-      font-weight: 600;
+    .row-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .image-meta {
+    .row-details {
       font-size: 0.75rem;
-      color: var(--text-muted);
+      color: var(--text-subtle);
     }
 
-    .image-actions {
+    .row-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+      flex-shrink: 0;
     }
 
-    .icon-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      color: var(--text-muted);
-      width: 32px;
-      height: 32px;
+    .action-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      color: var(--text-subtle);
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -328,168 +249,163 @@
       transition: all 0.15s;
     }
 
-    .icon-btn:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
+    .action-btn:hover:not(:disabled) {
+      background: var(--border);
+      color: var(--text);
     }
 
-    .icon-btn:disabled {
-      opacity: 0.3;
+    .action-btn:disabled {
+      opacity: 0.2;
       cursor: not-allowed;
     }
 
-    .icon-btn.delete-btn:hover {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: rgba(239, 68, 68, 0.4);
+    .action-btn.delete-btn:hover {
       color: var(--danger);
+      background: rgba(244, 63, 94, 0.1);
     }
 
-    /* Settings & Actions */
-    .controls-grid {
+    /* Minimal Options */
+    .options-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-      padding-top: 10px;
-      border-top: 1px solid var(--card-border);
+      grid-template-columns: 2fr 1fr auto;
+      gap: 12px;
+      align-items: end;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
     }
 
-    .form-group {
+    .field {
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
 
-    .form-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-muted);
+    .field-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    .form-input, .form-select {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-sm);
-      color: var(--text-main);
-      padding: 8px 12px;
-      font-size: 0.88rem;
+    .field-input, .field-select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      padding: 9px 12px;
+      font-size: 0.85rem;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.15s;
     }
 
-    .form-input:focus, .form-select:focus {
-      border-color: var(--accent-primary);
+    .field-input:focus, .field-select:focus {
+      border-color: var(--border-focus);
     }
 
-    .checkbox-label {
+    .field-checkbox {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.88rem;
+      padding-bottom: 10px;
+      font-size: 0.85rem;
       color: var(--text-muted);
       cursor: pointer;
-      margin-top: 24px;
+      user-select: none;
     }
 
-    .checkbox-label input[type="checkbox"] {
-      accent-color: var(--accent-primary);
-      width: 16px;
-      height: 16px;
+    .field-checkbox input {
+      accent-color: var(--text);
+      width: 15px;
+      height: 15px;
       cursor: pointer;
     }
 
-    /* Buttons */
-    .action-buttons {
+    /* Actions */
+    .button-group {
       display: flex;
-      gap: 12px;
-      margin-top: 6px;
+      gap: 10px;
+      margin-top: 4px;
     }
 
-    .btn {
+    .btn-main {
       flex: 1;
-      padding: 14px 20px;
-      border-radius: var(--radius-md);
-      font-size: 0.95rem;
-      font-weight: 700;
+      background: var(--accent);
+      color: var(--accent-text);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 11px 16px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      transition: opacity 0.15s ease;
+    }
+
+    .btn-main:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 11px 16px;
+      font-size: 0.88rem;
+      font-weight: 500;
       cursor: pointer;
-      border: none;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.15s ease;
     }
 
-    .btn-primary {
-      background: var(--accent-gradient);
-      color: white;
-      box-shadow: 0 10px 20px -6px rgba(99, 102, 241, 0.4);
+    .btn-outline:hover:not(:disabled) {
+      background: var(--surface-hover);
+      border-color: var(--border-focus);
     }
 
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 28px -6px rgba(99, 102, 241, 0.6);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: white;
-    }
-
-    .btn-secondary:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-2px);
-    }
-
-    .btn:disabled {
-      opacity: 0.5;
+    .btn-main:disabled, .btn-outline:disabled {
+      opacity: 0.4;
       cursor: not-allowed;
-      transform: none !important;
     }
 
-    /* Toast Notification */
+    /* Toast */
     .toast {
       position: fixed;
       bottom: 24px;
       right: 24px;
-      padding: 12px 20px;
-      background: #1e293b;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius-md);
-      color: white;
-      font-size: 0.9rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 999;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .toast.success {
-      border-color: rgba(16, 185, 129, 0.5);
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      color: var(--text-dim);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 16px;
       font-size: 0.85rem;
-      margin-top: 10px;
+      color: var(--text);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.2s ease;
+      pointer-events: none;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
     }
 
-    @media (max-width: 640px) {
-      h1 { font-size: 1.85rem; }
-      .action-buttons { flex-direction: column; }
-      .dropzone { padding: 32px 16px; }
+    .toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 600px) {
+      .options-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .button-group {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -498,142 +414,115 @@
   <div class="container">
     <!-- Header -->
     <header>
-      <div class="badge">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        Instant Arranger
-      </div>
-      <h1>Screenshot to PDF & DOCX</h1>
-      <p class="subtitle">Drag & drop your screenshots to automatically arrange, preview, and download a clean PDF or Word document in seconds.</p>
+      <h1>Screenshot Arranger</h1>
+      <p class="subtitle">Drop screenshots, arrange order, and export directly as PDF or DOCX.</p>
     </header>
 
-    <!-- Drag & Drop Zone -->
+    <!-- Drop Zone -->
     <div class="dropzone" id="dropzone">
-      <div class="dropzone-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="17 8 12 3 7 8"></polyline>
-          <line x1="12" y1="3" x2="12" y2="15"></line>
-        </svg>
-      </div>
-      <div class="dropzone-title">Drop your screenshots here</div>
-      <div class="dropzone-desc">Supports PNG, JPG, JPEG, WEBP, BMP, GIF (or paste via Ctrl+V)</div>
-      <button class="browse-btn" type="button" onclick="document.getElementById('fileInput').click()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Select Images
-      </button>
+      <svg class="dropzone-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="17 8 12 3 7 8"></polyline>
+        <line x1="12" y1="3" x2="12" y2="15"></line>
+      </svg>
+      <div class="dropzone-text">Drop images or click to browse</div>
+      <div class="dropzone-subtext">PNG, JPG, WEBP, BMP • Paste anytime with ⌘V</div>
       <input type="file" id="fileInput" multiple accept="image/*" />
     </div>
 
-    <!-- Images & Controls Panel -->
-    <div class="section-card" id="previewCard">
-      <div class="section-header">
-        <div class="section-title">
-          <span>Screenshots Queue</span>
-          <span class="count-chip" id="imageCount">0</span>
-        </div>
-        <button class="clear-btn" id="clearAllBtn" type="button">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-          Clear all
-        </button>
+    <!-- Images Queue & Options -->
+    <div class="queue-section" id="queueSection">
+      <div class="queue-header">
+        <span>Queue (<span class="queue-count" id="itemCount">0</span>)</span>
+        <button class="clear-link" id="clearBtn" type="button">Clear all</button>
       </div>
 
-      <!-- List of images -->
+      <!-- Image list items -->
       <div class="images-list" id="imagesList"></div>
 
-      <!-- Settings -->
-      <div class="controls-grid">
-        <div class="form-group">
-          <label class="form-label" for="docTitle">Document Name</label>
-          <input class="form-input" type="text" id="docTitle" value="arranged_screenshots" placeholder="File name without extension" />
+      <!-- Options -->
+      <div class="options-row">
+        <div class="field">
+          <label class="field-label" for="docName">Document Name</label>
+          <input class="field-input" type="text" id="docName" value="arranged_screenshots" placeholder="File name" />
         </div>
-        <div class="form-group">
-          <label class="form-label" for="pageSize">Page Size</label>
-          <select class="form-select" id="pageSize">
-            <option value="letter" selected>Letter (Standard)</option>
+        <div class="field">
+          <label class="field-label" for="pageFormat">Page Size</label>
+          <select class="field-select" id="pageFormat">
+            <option value="letter" selected>Letter</option>
             <option value="a4">A4</option>
           </select>
         </div>
-        <label class="checkbox-label">
-          <input type="checkbox" id="includeCaptions" checked />
-          Include filename captions
+        <label class="field-checkbox">
+          <input type="checkbox" id="showCaptions" checked />
+          <span>Include captions</span>
         </label>
       </div>
 
-      <!-- Action buttons -->
-      <div class="action-buttons">
-        <button class="btn btn-primary" id="downloadPdfBtn" type="button">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span id="pdfBtnText">Download PDF</span>
+      <!-- Export Buttons -->
+      <div class="button-group">
+        <button class="btn-main" id="pdfBtn" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span id="pdfLabel">Download PDF</span>
         </button>
-        <button class="btn btn-secondary" id="downloadDocxBtn" type="button">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          <span id="docxBtnText">Download DOCX</span>
+        <button class="btn-outline" id="docxBtn" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span id="docxLabel">Download DOCX</span>
         </button>
       </div>
     </div>
-
-    <!-- Footer -->
-    <footer>
-      Screenshot Arranger • Client-Side & Python Compatible
-    </footer>
   </div>
 
-  <!-- Toast Notification -->
-  <div class="toast" id="toast">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" color="#10b981"><path d="M20 6L9 17l-5-5"/></svg>
-    <span id="toastMsg">Operation successful</span>
-  </div>
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
 
   <script>
-    // State
-    const images = []; // Array of { id, name, size, type, dataUrl, width, height, file }
+    const images = [];
 
-    // DOM Elements
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
-    const previewCard = document.getElementById('previewCard');
+    const queueSection = document.getElementById('queueSection');
     const imagesList = document.getElementById('imagesList');
-    const imageCount = document.getElementById('imageCount');
-    const clearAllBtn = document.getElementById('clearAllBtn');
-    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-    const downloadDocxBtn = document.getElementById('downloadDocxBtn');
-    const pdfBtnText = document.getElementById('pdfBtnText');
-    const docxBtnText = document.getElementById('docxBtnText');
-    const docTitle = document.getElementById('docTitle');
-    const pageSizeSelect = document.getElementById('pageSize');
-    const includeCaptions = document.getElementById('includeCaptions');
+    const itemCount = document.getElementById('itemCount');
+    const clearBtn = document.getElementById('clearBtn');
+    const docName = document.getElementById('docName');
+    const pageFormat = document.getElementById('pageFormat');
+    const showCaptions = document.getElementById('showCaptions');
+    const pdfBtn = document.getElementById('pdfBtn');
+    const docxBtn = document.getElementById('docxBtn');
+    const pdfLabel = document.getElementById('pdfLabel');
+    const docxLabel = document.getElementById('docxLabel');
     const toast = document.getElementById('toast');
-    const toastMsg = document.getElementById('toastMsg');
 
-    // Drag & Drop events
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropzone.addEventListener(eventName, (e) => {
+    // Drag and drop
+    ['dragenter', 'dragover'].forEach(name => {
+      dropzone.addEventListener(name, (e) => {
         e.preventDefault();
-        e.stopPropagation();
         dropzone.classList.add('dragover');
       });
     });
 
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropzone.addEventListener(eventName, (e) => {
+    ['dragleave', 'drop'].forEach(name => {
+      dropzone.addEventListener(name, (e) => {
         e.preventDefault();
-        e.stopPropagation();
         dropzone.classList.remove('dragover');
       });
     });
 
+    dropzone.addEventListener('click', () => fileInput.click());
+
     dropzone.addEventListener('drop', (e) => {
       const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-      if (files.length) handleFiles(files);
+      if (files.length) processFiles(files);
     });
 
     fileInput.addEventListener('change', (e) => {
       const files = Array.from(e.target.files).filter(f => f.type.startsWith('image/'));
-      if (files.length) handleFiles(files);
+      if (files.length) processFiles(files);
       fileInput.value = '';
     });
 
-    // Paste from clipboard (Cmd+V / Ctrl+V)
+    // Paste handler
     window.addEventListener('paste', (e) => {
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
       const files = [];
@@ -644,39 +533,37 @@
         }
       }
       if (files.length) {
-        handleFiles(files);
-        showToast(`Pasted ${files.length} image(s) from clipboard`);
+        processFiles(files);
+        notify(`Pasted ${files.length} image(s)`);
       }
     });
 
-    function formatFileSize(bytes) {
+    function formatSize(bytes) {
       if (bytes < 1024) return bytes + ' B';
-      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(0) + ' KB';
       return (bytes / 1048576).toFixed(1) + ' MB';
     }
 
-    function handleFiles(files) {
-      let loaded = 0;
-      files.forEach((file) => {
+    function processFiles(files) {
+      let count = 0;
+      files.forEach(file => {
         const reader = new FileReader();
-        reader.onload = (event) => {
-          const dataUrl = event.target.result;
+        reader.onload = (e) => {
+          const dataUrl = e.target.result;
           const img = new Image();
           img.onload = () => {
             images.push({
-              id: 'img_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
               name: file.name || `screenshot_${images.length + 1}.png`,
               size: file.size,
               type: file.type || 'image/png',
               dataUrl: dataUrl,
               width: img.naturalWidth,
-              height: img.naturalHeight,
-              file: file
+              height: img.naturalHeight
             });
-            loaded++;
-            if (loaded === files.length) {
+            count++;
+            if (count === files.length) {
               render();
-              showToast(`Added ${files.length} screenshot(s)`);
+              notify(`Added ${files.length} screenshot(s)`);
             }
           };
           img.src = dataUrl;
@@ -687,85 +574,76 @@
 
     function render() {
       if (images.length === 0) {
-        previewCard.style.display = 'none';
+        queueSection.style.display = 'none';
         return;
       }
 
-      previewCard.style.display = 'flex';
-      imageCount.textContent = images.length;
+      queueSection.style.display = 'flex';
+      itemCount.textContent = images.length;
       imagesList.innerHTML = '';
 
-      images.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'image-item';
-        div.innerHTML = `
+      images.forEach((img, i) => {
+        const row = document.createElement('div');
+        row.className = 'image-row';
+        row.innerHTML = `
           <div class="image-left">
-            <span class="item-index">${index + 1}.</span>
-            <img class="image-thumb" src="${item.dataUrl}" alt="${item.name}" />
-            <div class="image-info">
-              <span class="image-name" title="${item.name}">${item.name}</span>
-              <span class="image-meta">${item.width} × ${item.height} px • ${formatFileSize(item.size)}</span>
+            <span class="row-index">${i + 1}</span>
+            <img class="row-thumb" src="${img.dataUrl}" alt="" />
+            <div class="row-meta">
+              <span class="row-name" title="${img.name}">${img.name}</span>
+              <span class="row-details">${img.width}×${img.height} • ${formatSize(img.size)}</span>
             </div>
           </div>
-          <div class="image-actions">
-            <button class="icon-btn" title="Move Up" ${index === 0 ? 'disabled' : ''} onclick="moveImage(${index}, -1)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+          <div class="row-actions">
+            <button class="action-btn" title="Move Up" ${i === 0 ? 'disabled' : ''} onclick="reorder(${i}, -1)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
             </button>
-            <button class="icon-btn" title="Move Down" ${index === images.length - 1 ? 'disabled' : ''} onclick="moveImage(${index}, 1)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <button class="action-btn" title="Move Down" ${i === images.length - 1 ? 'disabled' : ''} onclick="reorder(${i}, 1)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
-            <button class="icon-btn delete-btn" title="Remove" onclick="removeImage(${index})">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <button class="action-btn delete-btn" title="Remove" onclick="removeItem(${i})">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
           </div>
         `;
-        imagesList.appendChild(div);
+        imagesList.appendChild(row);
       });
     }
 
-    window.moveImage = function(index, direction) {
-      const newIndex = index + direction;
-      if (newIndex < 0 || newIndex >= images.length) return;
-      const temp = images[index];
-      images[index] = images[newIndex];
-      images[newIndex] = temp;
+    window.reorder = (index, delta) => {
+      const target = index + delta;
+      if (target < 0 || target >= images.length) return;
+      const item = images.splice(index, 1)[0];
+      images.splice(target, 0, item);
       render();
     };
 
-    window.removeImage = function(index) {
+    window.removeItem = (index) => {
       images.splice(index, 1);
       render();
     };
 
-    clearAllBtn.addEventListener('click', () => {
+    clearBtn.addEventListener('click', () => {
       images.length = 0;
       render();
-      showToast('Cleared all screenshots');
+      notify('Cleared all');
     });
 
-    function showToast(msg) {
-      toastMsg.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
+    function notify(text) {
+      toast.textContent = text;
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 2400);
     }
 
-    // PDF Generation
-    downloadPdfBtn.addEventListener('click', async () => {
+    // PDF Export
+    pdfBtn.addEventListener('click', async () => {
       if (!images.length) return;
-
-      downloadPdfBtn.disabled = true;
-      pdfBtnText.textContent = 'Generating PDF...';
+      pdfBtn.disabled = true;
+      pdfLabel.textContent = 'Exporting...';
 
       try {
         const { jsPDF } = window.jspdf;
-        const isLetter = pageSizeSelect.value === 'letter';
-        // Letter: 215.9 x 279.4 mm (8.5 x 11 in) | A4: 210 x 297 mm
-        const pageWidth = isLetter ? 215.9 : 210;
-        const pageHeight = isLetter ? 279.4 : 297;
-        const margin = 12.7; // 0.5 inch
-
+        const isLetter = pageFormat.value === 'letter';
         const doc = new jsPDF({
           orientation: 'portrait',
           unit: 'mm',
@@ -773,24 +651,26 @@
           compress: true
         });
 
+        const pageWidth = isLetter ? 215.9 : 210;
+        const pageHeight = isLetter ? 279.4 : 297;
+        const margin = 12.7; // 0.5 in
+
         const maxW = pageWidth - (margin * 2);
-        const maxH = pageHeight - (margin * 2) - (includeCaptions.checked ? 10 : 0);
+        const maxH = pageHeight - (margin * 2) - (showCaptions.checked ? 10 : 0);
 
         for (let i = 0; i < images.length; i++) {
           if (i > 0) doc.addPage();
-
           const img = images[i];
-          let imgY = margin;
+          let y = margin;
 
-          if (includeCaptions.checked) {
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(11);
-            doc.setTextColor(40, 40, 40);
+          if (showCaptions.checked) {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(160, 160, 160);
             doc.text(`${i + 1}. ${img.name}`, margin, margin + 4);
-            imgY = margin + 8;
+            y = margin + 8;
           }
 
-          // Compute aspect ratio
           const aspect = img.width / img.height;
           let targetW = maxW;
           let targetH = targetW / aspect;
@@ -800,73 +680,59 @@
             targetW = targetH * aspect;
           }
 
-          const imgX = margin + (maxW - targetW) / 2; // center horizontally
-
-          // Add image to PDF
+          const x = margin + (maxW - targetW) / 2;
           const format = img.type.includes('png') ? 'PNG' : 'JPEG';
-          doc.addImage(img.dataUrl, format, imgX, imgY, targetW, targetH, undefined, 'FAST');
+          doc.addImage(img.dataUrl, format, x, y, targetW, targetH, undefined, 'FAST');
         }
 
-        const outName = (docTitle.value.trim() || 'arranged_screenshots') + '.pdf';
-        doc.save(outName);
-        showToast('PDF downloaded successfully!');
+        const filename = (docName.value.trim() || 'arranged_screenshots') + '.pdf';
+        doc.save(filename);
+        notify('PDF exported');
       } catch (err) {
         console.error(err);
-        alert('Error generating PDF: ' + err.message);
+        alert('Export error: ' + err.message);
       } finally {
-        downloadPdfBtn.disabled = false;
-        pdfBtnText.textContent = 'Download PDF';
+        pdfBtn.disabled = false;
+        pdfLabel.textContent = 'Download PDF';
       }
     });
 
-    // DOCX Generation
-    downloadDocxBtn.addEventListener('click', async () => {
+    // DOCX Export
+    docxBtn.addEventListener('click', async () => {
       if (!images.length) return;
-
-      downloadDocxBtn.disabled = true;
-      docxBtnText.textContent = 'Generating DOCX...';
+      docxBtn.disabled = true;
+      docxLabel.textContent = 'Exporting...';
 
       try {
-        if (typeof docx === 'undefined') {
-          throw new Error('DOCX generator library is loading, please try again.');
-        }
-
-        const { Document, Packer, Paragraph, TextRun, ImageRun, HeadingLevel } = docx;
-
-        const docSections = [];
+        const { Document, Packer, Paragraph, TextRun, ImageRun } = docx;
         const children = [];
 
         for (let i = 0; i < images.length; i++) {
-          const item = images[i];
+          const img = images[i];
 
-          if (includeCaptions.checked) {
+          if (showCaptions.checked) {
             children.push(
               new Paragraph({
                 children: [
                   new TextRun({
-                    text: `${i + 1}. ${item.name}`,
+                    text: `${i + 1}. ${img.name}`,
                     bold: true,
-                    size: 22,
-                    color: "282828"
+                    size: 20,
+                    color: "444444"
                   })
                 ],
-                spacing: { before: 200, after: 100 }
+                spacing: { before: 180, after: 80 }
               })
             );
           }
 
-          // Convert DataURL to Uint8Array
-          const byteString = atob(item.dataUrl.split(',')[1]);
-          const mimeString = item.dataUrl.split(',')[0].split(':')[1].split(';')[0];
+          const byteString = atob(img.dataUrl.split(',')[1]);
           const ab = new ArrayBuffer(byteString.length);
           const ia = new Uint8Array(ab);
-          for (let j = 0; j < byteString.length; j++) {
-            ia[j] = byteString.charCodeAt(j);
-          }
+          for (let j = 0; j < byteString.length; j++) ia[j] = byteString.charCodeAt(j);
 
-          // Calculate dimensions (max width 600px, max height 750px)
-          const aspect = item.width / item.height;
-          let targetW = 550;
+          const aspect = img.width / img.height;
+          let targetW = 540;
           let targetH = targetW / aspect;
           if (targetH > 700) {
             targetH = 700;
@@ -878,13 +744,10 @@
               children: [
                 new ImageRun({
                   data: ia,
-                  transformation: {
-                    width: targetW,
-                    height: targetH
-                  }
+                  transformation: { width: targetW, height: targetH }
                 })
               ],
-              spacing: { after: 300 }
+              spacing: { after: 240 }
             })
           );
         }
@@ -893,7 +756,7 @@
           sections: [{
             properties: {
               page: {
-                margin: { top: 720, right: 720, bottom: 720, left: 720 } // 0.5 in
+                margin: { top: 720, right: 720, bottom: 720, left: 720 }
               }
             },
             children: children
@@ -901,15 +764,15 @@
         });
 
         const blob = await Packer.toBlob(wordDoc);
-        const outName = (docTitle.value.trim() || 'arranged_screenshots') + '.docx';
-        saveAs(blob, outName);
-        showToast('DOCX downloaded successfully!');
+        const filename = (docName.value.trim() || 'arranged_screenshots') + '.docx';
+        saveAs(blob, filename);
+        notify('DOCX exported');
       } catch (err) {
         console.error(err);
-        alert('Error generating DOCX: ' + err.message);
+        alert('DOCX export error: ' + err.message);
       } finally {
-        downloadDocxBtn.disabled = false;
-        docxBtnText.textContent = 'Download DOCX';
+        docxBtn.disabled = false;
+        docxLabel.textContent = 'Download DOCX';
       }
     });
   </script>
